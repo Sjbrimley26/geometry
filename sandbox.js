@@ -10,5 +10,4 @@ const test = EqTriangle({
 const l1 = Line(Point(0, 0), Point(10, 10));
 const l2 = Line(Point(0, 10), Point(10, 0));
 
-console.log(l1.intersectsWith(l2));
-console.log(l1.isPointOnLine(Point(5, 5)));
+console.log(test.circumcircle);

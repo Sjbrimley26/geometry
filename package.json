@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sjbrimley26/geometry.git"
+    "url": "git+https://github.com/Sjbrimley26/geometry.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/sjbrimley26/geometry/issues"
+    "url": "https://github.com/Sjbrimley26/geometry/issues"
   },
-  "homepage": "https://github.com/sjbrimley26/geometry#readme",
+  "homepage": "https://github.com/Sjbrimley26/geometry#readme",
   "dependencies": {
-    "sjb-utils": "^1.0.0"
+    "sjb-utils": "^1.0.1"
   }
 }
