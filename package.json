@@ -1,0 +1,22 @@
+{
+  "name": "geometry",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sjbrimley26/geometry.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sjbrimley26/geometry/issues"
+  },
+  "homepage": "https://github.com/sjbrimley26/geometry#readme",
+  "dependencies": {
+    "sjb-utils": "^1.0.0"
+  }
+}

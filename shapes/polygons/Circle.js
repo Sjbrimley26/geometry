@@ -1,21 +1,27 @@
 const { PI: pi, sin, cos, pow } = Math;
 const Point = require("../Point");
-const { multiply, toFixedFloat, divide, sqrt } = require("../../utils/Math");
+const { 
+  multiply,
+  toFixedFloat,
+  divide,
+  sqrt 
+} = require("sjb-utils/Math");
+const { edges } = require("./prototypes");
 
-function Circle ({center, radius}) {
+function circle({center, radius}) {
   this.center = center;
   this.radius = radius;
 }
 
-Circle.prototype.getPointOnCircle = function (angle) {
+circle.prototype.getPointOnCircle = function (angle) {
   const { x, y } = this.center;
-  return Point.of(
+  return Point(
     toFixedFloat(this.radius * sin(angle) + x, 2),
     toFixedFloat(this.radius * cos(angle) + y, 2)
   );
 }
 
-Object.defineProperties(Circle.prototype, {
+Object.defineProperties(circle.prototype, {
   vertices: {
     get: function() {
       return [
@@ -59,9 +65,12 @@ Object.defineProperties(Circle.prototype, {
       this.radius = divide(c)(pi * 2);
       return true;
     }
-  }
+  },
+
+  ...edges
 });
 
-Circle.of = ({ center, radius }) => new Circle({center, radius})
+const Circle = 
+  ({ center, radius }) => new circle({center, radius})
 
 module.exports = Circle;

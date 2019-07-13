@@ -1,9 +1,9 @@
-function Point(x, y) {
+function point(x, y) {
   this.x = x;
   this.y = y;
 }
 
-Point.of = (x, y) => new Point(x, y)
+const Point = (x, y) => new point(x, y)
 
 Point.orientation = (p1, p2, p3) => {
   // https://www.geeksforgeeks.org/orientation-3-ordered-points/

@@ -1,17 +1,23 @@
 const Point = require("./Point");
-const { divide, multiply, subtract, sqrt, pow } = require("../utils/Math");
+const { 
+  divide,
+  multiply,
+  subtract,
+  sqrt,
+  pow 
+} = require("sjb-utils/Math");
 
-function Line(start, end) {
+function line(start, end) {
   this.start = start;
   this.end = end;
 }
 
-Line.prototype.isPointOnLine = function(point) {
+line.prototype.isPointOnLine = function(point) {
   const { x, y } = this.start;
   return multiply(point.x - x)(this.slope) === subtract(point.y)(y);
 }
 
-Line.prototype.intersectsWith = function(line2) {
+line.prototype.intersectsWith = function(line2) {
   // https://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/
   const { start: p1, end: q1 } = this;
   const { start: p2, end: q2 } = line2;
@@ -35,7 +41,7 @@ Line.prototype.intersectsWith = function(line2) {
   return false; // Doesn't fall in any of the above cases
 }
 
-Object.defineProperties(Line.prototype, {
+Object.defineProperties(line.prototype, {
   slope: {
     get: function() {
       return divide(this.end.y - this.start.y)(this.end.x - this.start.x);
@@ -48,5 +54,7 @@ Object.defineProperties(Line.prototype, {
     }
   }
 });
+
+const Line = (p1, p2) => new line(p1, p2)
 
 module.exports = Line;
