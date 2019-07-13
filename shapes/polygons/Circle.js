@@ -6,14 +6,14 @@ const {
   divide,
   sqrt 
 } = require("sjb-utils/Math");
-const { edges } = require("./prototypes");
+const edges = require("./prototypes/edges");
 
-function circle({center, radius}) {
+function Circle({center, radius}) {
   this.center = center;
   this.radius = radius;
 }
 
-circle.prototype.getPointOnCircle = function (angle) {
+Circle.prototype.getPointOnCircle = function (angle) {
   const { x, y } = this.center;
   return Point(
     toFixedFloat(this.radius * sin(angle) + x, 2),
@@ -21,7 +21,7 @@ circle.prototype.getPointOnCircle = function (angle) {
   );
 }
 
-Object.defineProperties(circle.prototype, {
+Object.defineProperties(Circle.prototype, {
   vertices: {
     get: function() {
       return [
@@ -70,7 +70,6 @@ Object.defineProperties(circle.prototype, {
   ...edges
 });
 
-const Circle = 
-  ({ center, radius }) => new circle({center, radius})
+Circle.of = ({ center, radius }) => new Circle({center, radius})
 
 module.exports = Circle;

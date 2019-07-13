@@ -1,24 +1,17 @@
 const { PI: pi } = Math;
 const Circle = require("./Circle");
-const { divide, cos, pow, sqrt, multiply } = require("sjb-utils/Math");
+const { divide, sin, pow, sqrt, multiply, toRadians } = require("sjb-utils/Math");
 const { pipe } = require("sjb-utils/Functions");
-const { edges } = require("./prototypes");
+const { edges, circumcircle } = require("./prototypes");
 
-function eqTriangle({ center, sideLength }) {
+function EqTriangle({ center, sideLength }) {
   this.center = center;
   this.sideLength = sideLength;
+  this.sides = 3;
 }
 
-Object.defineProperties(eqTriangle.prototype, {
-  circumcircle: {
-    get: function() {
-      const { center, sideLength } = this;
-      return Circle({
-        center,
-        radius: divide(sideLength / 2)(cos(pi / 6))
-      });
-    }
-  },
+Object.defineProperties(EqTriangle.prototype, {
+  ...circumcircle,
 
   vertices: {
     get: function() {
@@ -39,7 +32,6 @@ Object.defineProperties(eqTriangle.prototype, {
   ...edges
 });
 
-const EqTriangle =
-  ({ center, sideLength }) => new eqTriangle({ center, sideLength });
+EqTriangle.of = ({ center, sideLength }) => new EqTriangle({ center, sideLength });
 
 module.exports = EqTriangle;

@@ -2,13 +2,14 @@ const Point = require("../Point");
 const { divide } = require("sjb-utils/Math");
 const { edges } = require("./prototypes");
 
-function rectangle({ center, length, width }) {
+function Rectangle({ center, length, width }) {
   this.center = center;
   this.length = length;
   this.width = width;
+  this.sides = 4;
 }
 
-Object.defineProperties(rectangle.prototype, {
+Object.defineProperties(Rectangle.prototype, {
   area: {
     get: function() { return this.length * this.width }
   },
@@ -29,7 +30,6 @@ Object.defineProperties(rectangle.prototype, {
   ...edges
 });
 
-const Rectangle =
-  ({ center, length, width }) => new rectangle({ center, length, width })
+Rectangle.of = ({ center, length, width }) => new Rectangle({ center, length, width })
 
 module.exports = Rectangle;
