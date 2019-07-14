@@ -1,5 +1,5 @@
 const Rectangle = require("./Rectangle");
-const { edges, circumcircle } = require("./prototypes");
+const { regularPolygon } = require("./prototypes");
 
 const Square = function({ center, sideLength }) {
   Rectangle.call(this, {
@@ -13,8 +13,7 @@ const Square = function({ center, sideLength }) {
 Square.prototype = Object.create(Rectangle.prototype);
 
 Object.defineProperties(Square.prototype, {
-  ...circumcircle,
-  ...edges
+  ...regularPolygon
 });
 
 Square.of = ({ center, sideLength }) => new Square({ center, sideLength})

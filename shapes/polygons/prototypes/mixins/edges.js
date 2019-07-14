@@ -1,4 +1,4 @@
-const Line = require("../../Line");
+const Line = require("../../../Line");
 
 const edges = {
   edges: {

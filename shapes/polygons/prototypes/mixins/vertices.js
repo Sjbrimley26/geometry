@@ -8,8 +8,9 @@ const vertices = {
     get: function() {
       const { sides } = this;
       const a = divide(360)(sides);
+      const start = divide(a)(2);
       
-      return range(0, 360, a, toRadians)
+      return range(start, 360 + start, a, toRadians)
         .map(angle => this.circumcircle.getPointOnCircle(angle));
     }
   }

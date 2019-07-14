@@ -1,18 +1,14 @@
-const { PI: pi } = Math;
-const { pow, sqrt, multiply } = require("sjb-utils/Math");
-const { regularPolygon } = require("./prototypes");
-const Polygon = require("./Polygon");
+const RegularPolygon = require("./generics/RegularPolygon");
 
 function EqTriangle({ center, sideLength }) {
-  Polygon.call(this, { center, sides: 3 });
-  this.sideLength = sideLength;
+  RegularPolygon.call(this, {
+    center,
+    sides: 3,
+    sideLength
+  });
 }
 
-EqTriangle.prototype = Object.create(Polygon.prototype);
-
-Object.defineProperties(EqTriangle.prototype, {
-  ...regularPolygon
-});
+EqTriangle.prototype = Object.create(RegularPolygon.prototype);
 
 EqTriangle.of = ({ center, sideLength }) => new EqTriangle({ center, sideLength })
 

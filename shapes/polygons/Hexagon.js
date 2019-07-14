@@ -1,19 +1,15 @@
-const { PI: pi } = Math;
-const { pow, sqrt, multiply } = require("sjb-utils/Math");
-const { regularPolygon } = require("./prototypes");
-const Polygon = require("./Polygon");
+const RegularPolygon = require("./generics/RegularPolygon");
 
 function Hexagon({ center, sideLength }) {
-  Polygon.call(this, { center, sides: 6 });
-  this.sideLength = sideLength;
+  RegularPolygon.call(this, {
+    center,
+    sides: 6,
+    sideLength
+  });
 }
 
-Hexagon.prototype = Object.create(Polygon.prototype);
+Hexagon.prototype = Object.create(RegularPolygon.prototype);
 
-Object.defineProperties(Hexagon.prototype, {
-  ...regularPolygon
-});
-
-Hexagon.of = ({ center, sideLength }) => new Hexagon({ center, sideLength });
+Hexagon.of = ({ center, sideLength }) => new Hexagon({ center, sideLength })
 
 module.exports = Hexagon;

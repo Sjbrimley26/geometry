@@ -6,8 +6,7 @@ const {
   divide,
   sqrt 
 } = require("sjb-utils/Math");
-const edges = require("./prototypes/edges");
-const Polygon = require("./Polygon");
+const Polygon = require("./generics/Polygon");
 
 function Circle({center, radius}) {
   Polygon.call(this, { center, sides: 360 });
@@ -70,7 +69,9 @@ Object.defineProperties(Circle.prototype, {
     }
   },
 
-  ...edges
+  perimeter: {
+    get: function() { return this.circumference; }
+  }
 });
 
 Circle.of = ({ center, radius }) => new Circle({center, radius})

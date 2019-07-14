@@ -1,11 +1,13 @@
-const { divide, tan } = require("sjb-utils/Math");
+const { divide, tan, toRadians } = require("sjb-utils/Math");
 
 // use with regular polygons only
 const apothem = {
   apothem: {
     get: function() {
       const { sideLength, sides } = this;
-      return divide(sideLength)(2 * tan(180 / sides));
+      return Math.abs(
+        divide(sideLength)(2 * tan(toRadians(180 / sides)))
+      );
     }
   }
 };

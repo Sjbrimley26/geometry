@@ -1,19 +1,15 @@
-const { PI: pi } = Math;
-const { pow, sqrt, multiply, toRadians } = require("sjb-utils/Math");
-const { regularPolygon } = require("./prototypes");
-const Polygon = require("./Polygon");
+const RegularPolygon = require("./generics/RegularPolygon");
 
 function Pentagon({ center, sideLength }) {
-  Polygon.call(this, { center, sides: 5 });
-  this.sideLength = sideLength;
+  RegularPolygon.call(this, {
+    center,
+    sides: 5,
+    sideLength
+  });
 }
 
-Pentagon.prototype = Object.create(Polygon.prototype);
+Pentagon.prototype = Object.create(RegularPolygon.prototype);
 
-Object.defineProperties(Pentagon.prototype, {
-  ...regularPolygon
-});
-
-Pentagon.of = ({ center, sideLength }) => new Pentagon({ center, sideLength });
+Pentagon.of = ({ center, sideLength }) => new Pentagon({ center, sideLength })
 
 module.exports = Pentagon;

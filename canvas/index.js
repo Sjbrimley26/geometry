@@ -2,7 +2,7 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
 const Circle = require("../shapes/polygons/Circle");
-const Polygon = require("../shapes/polygons/Polygon");
+const Polygon = require("../shapes/polygons/generics/Polygon");
 
 const renderPolygon = (
   polygon,
