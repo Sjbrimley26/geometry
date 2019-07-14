@@ -1,13 +1,15 @@
 const Point = require("../Point");
 const { divide } = require("sjb-utils/Math");
-const { edges } = require("./prototypes");
+const { edges, perimeter } = require("./prototypes");
+const Polygon = require("./Polygon");
 
 function Rectangle({ center, length, width }) {
-  this.center = center;
+  Polygon.call(this, { center, sides: 4 });
   this.length = length;
   this.width = width;
-  this.sides = 4;
 }
+
+Rectangle.prototype = Object.create(Polygon.prototype);
 
 Object.defineProperties(Rectangle.prototype, {
   area: {
@@ -27,7 +29,9 @@ Object.defineProperties(Rectangle.prototype, {
     }
   },
 
-  ...edges
+  ...edges,
+
+  ...perimeter
 });
 
 Rectangle.of = ({ center, length, width }) => new Rectangle({ center, length, width })

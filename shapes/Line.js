@@ -52,6 +52,15 @@ Object.defineProperties(line.prototype, {
     get: function() {
       return sqrt(pow(this.end.x - this.start.x)(2) + pow(this.end.y - this.start.y)(2));
     }
+  },
+
+  center: {
+    get: function() {
+      return Point(
+        divide(this.end.x - this.start.x)(2),
+        divide(this.end.y - this.start.y)(2)
+      );
+    }
   }
 });
 

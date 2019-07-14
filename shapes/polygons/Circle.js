@@ -7,11 +7,14 @@ const {
   sqrt 
 } = require("sjb-utils/Math");
 const edges = require("./prototypes/edges");
+const Polygon = require("./Polygon");
 
 function Circle({center, radius}) {
-  this.center = center;
+  Polygon.call(this, { center, sides: 360 });
   this.radius = radius;
 }
+
+Circle.prototype = Object.create(Polygon.prototype);
 
 Circle.prototype.getPointOnCircle = function (angle) {
   const { x, y } = this.center;

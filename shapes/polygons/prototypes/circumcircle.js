@@ -1,6 +1,7 @@
 const Circle = require("../Circle.js");
 const { divide, sin, toRadians } = require("sjb-utils/Math");
 
+// use with regular polygons only
 const circumcircle = {
   circumcircle: {
     get: function() {
