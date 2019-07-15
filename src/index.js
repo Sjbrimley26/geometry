@@ -1,4 +1,6 @@
 const { Point, Line, polygons } = require("../shapes");
+const { multiply } = require("sjb-utils/Math");
+const { get } = require("sjb-utils/Objects");
 const {
   EqTriangle,
   Hexagon,
@@ -10,7 +12,6 @@ const {
 } = polygons;
 const { renderShape } = require("../canvas");
 
-/*
 const hex = Hexagon.of({
   center: Point(100, 100),
   sideLength: 50
@@ -36,24 +37,54 @@ const circle = Circle.of({
   radius: 20
 });
 
+const c2 = Circle.of({
+  center: Point(310, 300),
+  radius: 20
+});
+
 const pent = Pentagon.of({
   center: Point(250, 100),
   sideLength: 40
 });
-*/
 
 const rect = Rectangle.of({
   center: Point(150, 150),
   length: 100,
-  width: 50
+  width: 200
 });
 
+const points = [
+  Point(120, 300),
+  Point(170, 290),
+  Point(150, 320)
+];
+
+const three = Circle.from3Points(
+  ...points
+);
+
 const shapes = [
-  rect
+  rect,
+  hex,
+  oct,
+  square,
+  circle,
+  c2,
+  pent,
+  three
 ];
 
 shapes.map(s => {
   s.circumcircle && renderShape(s.circumcircle);
   renderShape(s, "#4287f5");
-  s.inscribedCircle && renderShape(s.inscribedCircle);
+  // s.inscribedCircle && renderShape(s.inscribedCircle);
 });
+
+points.map(p => renderShape(p));
+
+circle.getPointsOfIntersection(c2).map(p => renderShape(p));
+
+const t = Line(Point(0, 0), Point(10, 10));
+console.log(t.length);
+t.length *= 2;
+console.log(t.end);

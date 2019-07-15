@@ -4,7 +4,11 @@ const {
   multiply,
   subtract,
   sqrt,
-  pow 
+  pow,
+  toFixedFloat,
+  cos,
+  sin,
+  toRadians
 } = require("sjb-utils/Math");
 
 function line(start, end) {
@@ -41,9 +45,39 @@ line.prototype.intersectsWith = function(line2) {
   return false; // Doesn't fall in any of the above cases
 }
 
+line.prototype.getPointOfIntersection = function(line2) {
+  const { start, slope: m0 } = this;
+  const { x: x0, y: y0 } = start;
+  const { start: s1, slope: m1 } = line2;
+  const { x: x1, y: y1 } = s1;
+  if (
+    !this.intersectsWith(line2) ||
+    this.slope == line2.slope
+  ) {
+    return undefined;
+  }
+
+  return Point(
+            toFixedFloat((m0*x0 - m1*x1 + y1 - y0) / (m0 - m1), 2),
+            toFixedFloat((m0*m1*(x1-x0) + m1*y0 - m0*y1) / (m1 - m0), 2)
+          );
+}
+
+line.prototype.getPerpendicular = function() {
+  const inv = -1 * divide(1)(this.slope);
+  const { x, y } = this.center;
+  const b = subtract(y)(inv * x);
+  const x0 = x - Math.floor(this.length);
+  const y0 = x0 * inv + b;
+  const x1 = x + Math.floor(this.length);
+  const y1 = x1 * inv + b;
+  return Line(Point(x0, y0), Point(x1, y1));
+}
+
 Object.defineProperties(line.prototype, {
   slope: {
     get: function() {
+      if (this.start.x == this.end.x) return undefined;
       return divide(this.end.y - this.start.y)(this.end.x - this.start.x);
     }
   },
@@ -54,6 +88,22 @@ Object.defineProperties(line.prototype, {
         pow(this.end.x - this.start.x)(2) + 
         pow(this.end.y - this.start.y)(2)
       );
+    },
+    set: function(len) {
+      const { x, y } = this.start;
+      const angle = toRadians(this.slope);
+      this.end = Point(
+        toFixedFloat(len * sin(angle) + x, 2),
+        toFixedFloat(len * cos(angle) + y, 2)
+      );
+    }
+  },
+  
+  distance: {
+    get: function() { return this.length; },
+    set: function(d) {
+      this.length = d;
+      return true;
     }
   },
 
@@ -63,6 +113,30 @@ Object.defineProperties(line.prototype, {
         divide(this.end.x + this.start.x)(2),
         divide(this.end.y + this.start.y)(2)
       );
+    }
+  },
+
+  yInt: {
+    get: function() {
+      if (this.start.x == this.end.x) {
+        return this.start.y == 0 ? 0 : false;
+      }
+      if (this.start.y == this.end.y) {
+        return this.start.y;
+      }
+      return subtract(this.start.y)(this.slope * this.start.x);
+    }
+  },
+
+  xInt: {
+    get: function() {
+      if (this.start.y == this.end.y) {
+        return this.start.x == 0 ? 0: false;
+      }
+      if (this.start.x == this.end.x) {
+        return this.start.x;
+      }
+      return divide(-1 * (this.slope * this.start.x - this.start.y))(this.slope);
     }
   }
 });

@@ -14,7 +14,7 @@ const renderPolygon = (
   ctx.beginPath();
   ctx.fillStyle = fillStyle;
   ctx.strokeStyle = strokeStyle;
-  for (point of polygon.vertices) {
+  for (let point of polygon.vertices) {
     if (!hasDrawnFirstPoint) {
       ctx.moveTo(point.x, point.y);
       hasDrawnFirstPoint = true;
@@ -42,11 +42,17 @@ const renderCircle = (
 }
 
 const renderShape = (shape, fillStyle, strokeStyle) => {
-  if (!shape instanceof Polygon) return undefined;
   if (shape instanceof Circle) {
     return renderCircle(shape, fillStyle, strokeStyle);
   }
-  return renderPolygon(shape, fillStyle, strokeStyle);
+  if (shape instanceof Polygon) {
+    return renderPolygon(shape, fillStyle, strokeStyle);
+  }
+  // render a point
+  return renderCircle(Circle.of({ 
+    center: shape,
+    radius: 2
+  }), fillStyle, fillStyle);
 }
 
 module.exports = {
