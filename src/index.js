@@ -13,17 +13,17 @@ const {
 const { renderShape } = require("../canvas");
 
 const hex = Hexagon.of({
-  center: Point(100, 100),
+  center: Point(420, 100),
   sideLength: 50
 });
 
 const oct = Octagon.of({
-  center: Point (175, 175),
+  center: Point (395, 225),
   sideLength: 35
 });
 
 const square = Square.of({
-  center: Point(150, 300),
+  center: Point(150, 440),
   sideLength: 150
 });
 
@@ -43,7 +43,7 @@ const c2 = Circle.of({
 });
 
 const pent = Pentagon.of({
-  center: Point(250, 100),
+  center: Point(320, 100),
   sideLength: 40
 });
 
@@ -75,16 +75,14 @@ const shapes = [
 ];
 
 shapes.map(s => {
-  s.circumcircle && renderShape(s.circumcircle);
+  // s.circumcircle && renderShape(s.circumcircle);
   renderShape(s, "#4287f5");
-  // s.inscribedCircle && renderShape(s.inscribedCircle);
+  s.inscribedCircle && renderShape(s.inscribedCircle);
+  s.vertices.forEach(p => renderShape(p));
 });
 
-points.map(p => renderShape(p));
+points.map(p => renderShape(p, "#75f542"));
 
-circle.getPointsOfIntersection(c2).map(p => renderShape(p));
+circle.getPointsOfIntersection(c2).map(p => renderShape(p, "#75f542"));
 
-const t = Line(Point(0, 0), Point(10, 10));
-console.log(t.length);
-t.length *= 2;
-console.log(t.end);
+console.log(square.sideLength)

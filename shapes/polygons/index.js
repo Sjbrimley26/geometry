@@ -4,7 +4,7 @@ const Circle = require("./Circle");
 const Hexagon = require("./Hexagon");
 const Square = require("./Square");
 const Pentagon = require("./Pentagon");
-const generics = require("./generics");
+const prototypes = require("./prototypes");
 const Octagon = require("./Octagon");
 
 module.exports = {
@@ -15,5 +15,5 @@ module.exports = {
   Square,
   Pentagon,
   Octagon,
-  generics
+  prototypes
 };

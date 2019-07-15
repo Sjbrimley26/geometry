@@ -1,6 +1,8 @@
+const { round } = Math;
+
 function point(x, y) {
-  this.x = x;
-  this.y = y;
+  this.x = round(x);
+  this.y = round(y);
 }
 
 const Point = (x, y) => new point(x, y)

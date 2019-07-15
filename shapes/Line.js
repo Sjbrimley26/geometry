@@ -8,7 +8,6 @@ const {
   toFixedFloat,
   cos,
   sin,
-  toRadians
 } = require("sjb-utils/Math");
 
 function line(start, end) {
@@ -91,11 +90,12 @@ Object.defineProperties(line.prototype, {
     },
     set: function(len) {
       const { x, y } = this.start;
-      const angle = toRadians(this.slope);
+      const angle = toFixedFloat(Math.atan(this.slope), 2);
       this.end = Point(
-        toFixedFloat(len * sin(angle) + x, 2),
-        toFixedFloat(len * cos(angle) + y, 2)
+        toFixedFloat(len * sin(angle) - x, 2),
+        toFixedFloat(len * cos(angle) - y, 2)
       );
+      return true;
     }
   },
   

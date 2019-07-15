@@ -1,4 +1,4 @@
-const RegularPolygon = require("./generics/RegularPolygon");
+const RegularPolygon = require("./prototypes/RegularPolygon");
 
 function Pentagon({ center, sideLength }) {
   RegularPolygon.call(this, {

@@ -1,6 +1,6 @@
 const Point = require("../Point");
 const { divide } = require("sjb-utils/Math");
-const IrregularPolygon = require("./generics/IrregularPolygon");
+const IrregularPolygon = require("./prototypes/IrregularPolygon");
 
 function Rectangle({ center, length, width }) {
   IrregularPolygon.call(this, { center, sides: 4 });

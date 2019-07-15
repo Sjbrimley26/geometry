@@ -2,7 +2,7 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
 const Circle = require("../shapes/polygons/Circle");
-const Polygon = require("../shapes/polygons/generics/Polygon");
+const Polygon = require("../shapes/polygons/prototypes/Polygon");
 
 const renderPolygon = (
   polygon,
@@ -41,6 +41,19 @@ const renderCircle = (
   ctx.stroke();
 }
 
+const renderLine = (
+  { start, end },
+  strokeStyle = "#000000"
+) => {
+  const { x: x0, y: y0 } = start;
+  const { x: x1, y: y1 } = end;
+  ctx.beginPath();
+  ctx.strokeStyle = strokeStyle;
+  ctx.moveTo(x0, y0);
+  ctx.lineTo(x1, y1);
+  ctx.stroke();
+}
+
 const renderShape = (shape, fillStyle, strokeStyle) => {
   if (shape instanceof Circle) {
     return renderCircle(shape, fillStyle, strokeStyle);
@@ -48,10 +61,13 @@ const renderShape = (shape, fillStyle, strokeStyle) => {
   if (shape instanceof Polygon) {
     return renderPolygon(shape, fillStyle, strokeStyle);
   }
+  if (shape.hasOwnProperty("end")) {
+    return renderLine(shape, fillStyle);
+  }
   // render a point
   return renderCircle(Circle.of({ 
     center: shape,
-    radius: 2
+    radius: 2.5
   }), fillStyle, fillStyle);
 }
 

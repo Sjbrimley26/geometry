@@ -1,15 +1,25 @@
-const circumcircle = require("./mixins/circumcircle");
-const vertices = require("./mixins/vertices");
-const regularApothem = require("./mixins/regularApothem");
-const area = require("./mixins/area");
-const inscribedCircle = require("./mixins/inscribedCircle");
+const Polygon = require("./Polygon");
+const {
+  area,
+  circumcircle,
+  inscribedCircle,
+  regularApothem,
+  vertices
+} = require("./mixins");
 
-const regularPolygon = {  
-  ...circumcircle,
-  ...vertices,
-  ...regularApothem,
+function RegularPolygon({ center, sides, sideLength }) {
+  Polygon.call(this, { center, sides });
+  this.sideLength = sideLength;
+}
+
+RegularPolygon.prototype = Object.create(Polygon.prototype);
+
+Object.defineProperties(RegularPolygon.prototype, {
   ...area,
-  ...inscribedCircle
-};
+  ...circumcircle,
+  ...inscribedCircle,
+  ...regularApothem,
+  ...vertices
+});
 
-module.exports = regularPolygon;
+module.exports = RegularPolygon;

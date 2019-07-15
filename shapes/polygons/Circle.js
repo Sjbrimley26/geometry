@@ -7,8 +7,7 @@ const {
   divide,
   sqrt 
 } = require("sjb-utils/Math");
-const { get } = require("sjb-utils/Objects");
-const Polygon = require("./generics/Polygon");
+const Polygon = require("./prototypes/Polygon");
 // const { renderShape } = require("../../canvas");
 
 function Circle({center, radius}) {
