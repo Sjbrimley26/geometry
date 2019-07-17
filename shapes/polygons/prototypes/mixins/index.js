@@ -6,6 +6,8 @@ const irregularApothem = require("./irregularApothem");
 const perimeter = require("./perimeter");
 const regularApothem = require("./regularApothem");
 const vertices = require("./vertices");
+const midpoints = require("./midpoints");
+const normals = require("./normals");
 
 module.exports = {
   area,
@@ -15,5 +17,7 @@ module.exports = {
   irregularApothem,
   perimeter,
   regularApothem,
-  vertices
+  vertices,
+  midpoints,
+  normals
 };

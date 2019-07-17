@@ -7,10 +7,8 @@ const irregularApothem = {
     get: function() {
       const { edges, center } = this;
       return min(
-        edges.map(get("center")).map(p => {
-        const length = Line(center, p).length;
-        return length;
-      }));
+        edges.map(get("center")).map(p => Line(center, p).length)
+      );
     }
   }
 };

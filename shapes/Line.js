@@ -45,16 +45,17 @@ line.prototype.intersectsWith = function(line2) {
 }
 
 line.prototype.getPointOfIntersection = function(line2) {
-  const { start, slope: m0 } = this;
-  const { x: x0, y: y0 } = start;
-  const { start: s1, slope: m1 } = line2;
-  const { x: x1, y: y1 } = s1;
   if (
     !this.intersectsWith(line2) ||
     this.slope == line2.slope
   ) {
     return undefined;
   }
+  
+  const { start, slope: m0 } = this;
+  const { x: x0, y: y0 } = start;
+  const { start: s1, slope: m1 } = line2;
+  const { x: x1, y: y1 } = s1;
 
   return Point(
             toFixedFloat((m0*x0 - m1*x1 + y1 - y0) / (m0 - m1), 2),

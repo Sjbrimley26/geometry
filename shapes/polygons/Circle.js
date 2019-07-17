@@ -15,6 +15,8 @@ function Circle({center, radius}) {
   this.radius = radius;
 }
 
+// Instance methods
+
 Circle.prototype = Object.create(Polygon.prototype);
 
 Circle.prototype.getPointOnCircle = function (angle) {
@@ -64,6 +66,12 @@ Circle.prototype.isPointOnCircle = function(p) {
   return Line(this.center, p).length == this.radius;
 }
 
+Circle.prototype.isPointWithinCircle = function(p) {
+  return Line(this.center, p).length <= this.radius;
+}
+
+// Props
+
 Object.defineProperties(Circle.prototype, {
   vertices: {
     get: function() {
@@ -112,6 +120,14 @@ Object.defineProperties(Circle.prototype, {
 
   perimeter: {
     get: function() { return this.circumference; }
+  },
+
+  apothem: {
+    get: function() { return this.radius; },
+    set: function(a) {
+      this.radius = a;
+      return true;
+    }
   }
 });
 
@@ -125,6 +141,12 @@ Circle.from3Points = (p1, p2, p3) => {
   const perpendiculars = lines.map(l => l.getPerpendicular());
   const center = perpendiculars[0].getPointOfIntersection(perpendiculars[1]);
   const radius = Line(center, p1).length;
+  return Circle.of({ center, radius });
+}
+
+Circle.fromLine = line => {
+  const radius = divide(line.length)(2);
+  const { center } = line;
   return Circle.of({ center, radius });
 }
 

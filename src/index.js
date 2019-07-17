@@ -8,7 +8,8 @@ const {
   Square,
   Pentagon,
   Octagon,
-  Rectangle
+  Rectangle,
+  Triangle
 } = polygons;
 const { renderShape } = require("../canvas");
 
@@ -28,7 +29,7 @@ const square = Square.of({
 });
 
 const tri = EqTriangle.of({
-  center: Point(280, 180),
+  center: Point(300, 180),
   sideLength: 50
 });
 
@@ -53,10 +54,16 @@ const rect = Rectangle.of({
   width: 200
 });
 
+const ty = Triangle.from3Points(
+  Point(300, 440),
+  Point(310, 520),
+  Point(350, 470)
+);
+
 const points = [
   Point(120, 300),
   Point(170, 290),
-  Point(150, 320)
+  Point(150, 350)
 ];
 
 const three = Circle.from3Points(
@@ -71,7 +78,9 @@ const shapes = [
   circle,
   c2,
   pent,
-  three
+  three,
+  tri,
+  ty
 ];
 
 shapes.map(s => {
@@ -85,4 +94,4 @@ points.map(p => renderShape(p, "#75f542"));
 
 circle.getPointsOfIntersection(c2).map(p => renderShape(p, "#75f542"));
 
-console.log(square.sideLength)
+console.log(ty.apothem);

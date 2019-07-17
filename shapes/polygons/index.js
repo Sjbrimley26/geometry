@@ -6,6 +6,7 @@ const Square = require("./Square");
 const Pentagon = require("./Pentagon");
 const prototypes = require("./prototypes");
 const Octagon = require("./Octagon");
+const Triangle = require("./Triangle");
 
 module.exports = {
   EqTriangle,
@@ -15,5 +16,6 @@ module.exports = {
   Square,
   Pentagon,
   Octagon,
-  prototypes
+  prototypes,
+  Triangle
 };

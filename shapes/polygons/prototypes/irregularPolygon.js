@@ -1,5 +1,5 @@
 const Polygon = require("./Polygon");
-const { inscribedCircle } = require("./mixins/inscribedCircle");
+const inscribedCircle = require("./mixins/inscribedCircle");
 
 function IrregularPolygon({ center, sides }) {
   Polygon.call(this, { center, sides });
