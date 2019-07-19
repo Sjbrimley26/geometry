@@ -1,5 +1,5 @@
-const Point = require("./Point");
-const { 
+import Point from "./Point";
+import { 
   divide,
   multiply,
   subtract,
@@ -8,7 +8,7 @@ const {
   toFixedFloat,
   cos,
   sin,
-} = require("sjb-utils/Math");
+} from "sjb-utils/Math";
 
 function line(start, end) {
   this.start = start;
@@ -144,4 +144,4 @@ Object.defineProperties(line.prototype, {
 
 const Line = (p1, p2) => new line(p1, p2)
 
-module.exports = Line;
+export default Line;

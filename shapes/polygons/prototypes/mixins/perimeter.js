@@ -1,5 +1,5 @@
-const { sum } = require("sjb-utils/Math");
-const { get } = require("sjb-utils/Objects");
+import { sum } from "sjb-utils/Math";
+import { get } from "sjb-utils/Objects";
 
 const perimeter = {
   perimeter: {
@@ -9,4 +9,4 @@ const perimeter = {
   }
 };
 
-module.exports = perimeter;
+export default perimeter;

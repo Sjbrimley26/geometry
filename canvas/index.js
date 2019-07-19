@@ -1,8 +1,8 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-const Circle = require("../shapes/polygons/Circle");
-const Polygon = require("../shapes/polygons/prototypes/Polygon");
+import Circle from "../shapes/polygons/Circle";
+import Polygon from "../shapes/polygons/prototypes/Polygon";
 
 const renderPolygon = (
   polygon,
@@ -71,7 +71,7 @@ const renderShape = (shape, fillStyle, strokeStyle) => {
   }), fillStyle, fillStyle);
 }
 
-module.exports = {
+export {
   canvas,
   ctx,
   renderShape

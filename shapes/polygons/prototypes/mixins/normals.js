@@ -7,4 +7,4 @@ const normals = {
   }
 };
 
-module.exports = normals;
+export default normals;

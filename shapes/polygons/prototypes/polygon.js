@@ -1,8 +1,8 @@
-const edges = require("./mixins/edges");
-const perimeter = require("./mixins/perimeter");
-const irregularApothem = require("./mixins/irregularApothem");
-const midpoints = require("./mixins/midpoints");
-const normals = require("./mixins/normals");
+import edges from "./mixins/edges";
+import perimeter from "./mixins/perimeter";
+import irregularApothem from "./mixins/irregularApothem";
+import midpoints from "./mixins/midpoints";
+import normals from "./mixins/normals";
 
 function Polygon({ center, sides }) {
   this.center = center;
@@ -17,4 +17,4 @@ Object.defineProperties(Polygon.prototype, {
   ...normals
 });
 
-module.exports = Polygon;
+export default Polygon;

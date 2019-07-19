@@ -1,4 +1,4 @@
-const RegularPolygon = require("./prototypes/RegularPolygon");
+import RegularPolygon from "./prototypes/RegularPolygon";
 
 function EqTriangle({ center, sideLength }) {
   RegularPolygon.call(this, {
@@ -12,4 +12,4 @@ EqTriangle.prototype = Object.create(RegularPolygon.prototype);
 
 EqTriangle.of = ({ center, sideLength }) => new EqTriangle({ center, sideLength })
 
-module.exports = EqTriangle;
+export default EqTriangle;

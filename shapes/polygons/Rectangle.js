@@ -1,6 +1,6 @@
-const Point = require("../Point");
-const { divide } = require("sjb-utils/Math");
-const IrregularPolygon = require("./prototypes/IrregularPolygon");
+import Point from "../Point";
+import { divide } from "sjb-utils/Math";
+import IrregularPolygon from "./prototypes/IrregularPolygon";
 
 function Rectangle({ center, length, width }) {
   IrregularPolygon.call(this, { center, sides: 4 });
@@ -31,4 +31,4 @@ Object.defineProperties(Rectangle.prototype, {
 
 Rectangle.of = ({ center, length, width }) => new Rectangle({ center, length, width })
 
-module.exports = Rectangle;
+export default Rectangle;

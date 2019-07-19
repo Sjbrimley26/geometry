@@ -1,4 +1,4 @@
-const { get } = require("sjb-utils/Objects");
+import { get } from "sjb-utils/Objects";
 
 const midpoints = {
   midpoints: {
@@ -8,4 +8,4 @@ const midpoints = {
   }
 };
 
-module.exports = midpoints;
+export default midpoints;

@@ -1,4 +1,4 @@
-const RegularPolygon = require("./prototypes/RegularPolygon");
+import RegularPolygon from "./prototypes/RegularPolygon";
 
 function Octagon({ center, sideLength }) {
   RegularPolygon.call(this, {
@@ -12,4 +12,4 @@ Octagon.prototype = Object.create(RegularPolygon.prototype);
 
 Octagon.of = ({ center, sideLength }) => new Octagon({ center, sideLength })
 
-module.exports = Octagon;
+export default Octagon;

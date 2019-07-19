@@ -1,6 +1,6 @@
-const { Point, Line, polygons } = require("../shapes");
-const { multiply } = require("sjb-utils/Math");
-const { get } = require("sjb-utils/Objects");
+import { Point, Line, polygons } from "../shapes";
+import { multiply } from "sjb-utils/Math";
+import { get } from "sjb-utils/Objects";
 const {
   EqTriangle,
   Hexagon,
@@ -11,7 +11,7 @@ const {
   Rectangle,
   Triangle
 } = polygons;
-const { renderShape } = require("../canvas");
+import { renderShape } from "../canvas";
 
 const hex = Hexagon.of({
   center: Point(420, 100),
@@ -54,11 +54,13 @@ const rect = Rectangle.of({
   width: 200
 });
 
+/*
 const ty = Triangle.from3Points(
   Point(300, 440),
   Point(310, 520),
   Point(350, 470)
 );
+*/
 
 const points = [
   Point(120, 300),
@@ -80,7 +82,7 @@ const shapes = [
   pent,
   three,
   tri,
-  ty
+  // ty
 ];
 
 shapes.map(s => {
@@ -93,5 +95,3 @@ shapes.map(s => {
 points.map(p => renderShape(p, "#75f542"));
 
 circle.getPointsOfIntersection(c2).map(p => renderShape(p, "#75f542"));
-
-console.log(ty.apothem);

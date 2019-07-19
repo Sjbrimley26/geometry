@@ -1,4 +1,4 @@
-const RegularPolygon = require("./prototypes/RegularPolygon");
+import RegularPolygon from "./prototypes/RegularPolygon";
 
 function Hexagon({ center, sideLength }) {
   RegularPolygon.call(this, {
@@ -12,4 +12,4 @@ Hexagon.prototype = Object.create(RegularPolygon.prototype);
 
 Hexagon.of = ({ center, sideLength }) => new Hexagon({ center, sideLength })
 
-module.exports = Hexagon;
+export default Hexagon;

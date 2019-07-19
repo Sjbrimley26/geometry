@@ -1,4 +1,4 @@
-const Circle = require("../../Circle");
+import Circle from "../../Circle";
 
 const inscribedCircle = {
   inscribedCircle: {
@@ -12,4 +12,4 @@ const inscribedCircle = {
   }
 };
 
-module.exports = inscribedCircle;
+export default inscribedCircle;

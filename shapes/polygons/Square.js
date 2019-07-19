@@ -1,5 +1,5 @@
-const Rectangle = require("./Rectangle");
-const circumcircle = require("./prototypes/mixins/circumcircle");
+import Rectangle from "./Rectangle";
+import circumcircle from "./prototypes/mixins/circumcircle";
 
 const Square = function({ center, sideLength }) {
   Rectangle.call(this, {
@@ -18,4 +18,4 @@ Object.defineProperties(Square.prototype, {
 
 Square.of = ({ center, sideLength }) => new Square({ center, sideLength})
 
-module.exports = Square;
+export default Square;

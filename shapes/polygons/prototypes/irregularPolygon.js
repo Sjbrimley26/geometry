@@ -1,5 +1,5 @@
-const Polygon = require("./Polygon");
-const inscribedCircle = require("./mixins/inscribedCircle");
+import Polygon from "./Polygon";
+import inscribedCircle from "./mixins/inscribedCircle";
 
 function IrregularPolygon({ center, sides }) {
   Polygon.call(this, { center, sides });
@@ -11,4 +11,4 @@ Object.defineProperties(IrregularPolygon.prototype, {
   ...inscribedCircle
 });
 
-module.exports = IrregularPolygon;
+export default IrregularPolygon;

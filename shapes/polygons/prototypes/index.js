@@ -1,9 +1,9 @@
-const Polygon = require("./Polygon");
-const RegularPolygon = require("./RegularPolygon");
-const IrregularPolygon = require("./IrregularPolygon");
-const mixins = require("./mixins");
+import Polygon from "./Polygon";
+import RegularPolygon from "./RegularPolygon";
+import IrregularPolygon from "./IrregularPolygon";
+import * as mixins from "./mixins";
 
-module.exports = {
+export {
   Polygon,
   RegularPolygon,
   IrregularPolygon,

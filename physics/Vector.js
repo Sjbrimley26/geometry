@@ -1,4 +1,4 @@
-const { 
+import { 
   sin,
   cos,
   multiply,
@@ -8,7 +8,7 @@ const {
   toRadians,
   add,
   subtract
-} = require("sjb-utils/Math");
+} from "sjb-utils/Math";
 
 function Vector({ direction, magnitude }) {
   this.direction = direction;
@@ -81,4 +81,4 @@ Object.defineProperties(Vector.prototype, {
 
 Vector.of = (direction, magnitude) => new Vector({ direction, magnitude })
 
-module.exports = Vector;
+export default Vector;

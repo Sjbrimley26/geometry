@@ -1,4 +1,4 @@
-const { divide, tan, toRadians } = require("sjb-utils/Math");
+import { divide, tan, toRadians } from "sjb-utils/Math";
 
 // use with regular polygons only
 const apothem = {
@@ -12,4 +12,4 @@ const apothem = {
   }
 };
 
-module.exports = apothem;
+export default apothem;

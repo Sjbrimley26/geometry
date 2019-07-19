@@ -1,6 +1,6 @@
-const { min } = require("sjb-utils/Math");
-const { get } = require("sjb-utils/Objects");
-const Line = require("../../../Line");
+import { min } from "sjb-utils/Math";
+import { get } from "sjb-utils/Objects";
+import Line from "../../../Line";
 
 const irregularApothem = {
   apothem: {
@@ -13,4 +13,4 @@ const irregularApothem = {
   }
 };
 
-module.exports = irregularApothem;
+export default irregularApothem;

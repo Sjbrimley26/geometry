@@ -1,8 +1,8 @@
-const polygons = require("./polygons");
-const Line = require("./Line");
-const Point = require("./Point");
+import * as polygons from "./polygons";
+import Line from "./Line";
+import Point from "./Point";
 
-module.exports = {
+export {
   polygons,
   Line,
   Point

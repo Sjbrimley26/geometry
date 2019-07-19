@@ -1,5 +1,5 @@
-const Circle = require("../../Circle.js");
-const { divide, sin, toRadians } = require("sjb-utils/Math");
+import Circle from "../../Circle.js";
+import { divide, sin, toRadians } from "sjb-utils/Math";
 
 // use with regular polygons only
 const circumcircle = {
@@ -14,4 +14,4 @@ const circumcircle = {
   }
 };
 
-module.exports = circumcircle;
+export default circumcircle;

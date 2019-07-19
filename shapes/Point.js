@@ -1,8 +1,16 @@
 const { round } = Math;
+import Vector from "../physics/Vector";
 
 function point(x, y) {
   this.x = round(x);
   this.y = round(y);
+}
+
+point.prototype.toVector = function() {
+  const v = Vector.of(0, 0);
+  v.x = this.x;
+  v.y = this.y;
+  return v;
 }
 
 const Point = (x, y) => new point(x, y)
@@ -18,6 +26,6 @@ Point.orientation = (p1, p2, p3) => {
   if (val == 0) return 0; // colinear 
 
   return (val > 0) ? 1 : 2; // clock or counter-clockwise 
-};
+}
 
-module.exports = Point;
+export default Point;

@@ -1,4 +1,4 @@
-const Line = require("../../../Line");
+import Line from "../../../Line";
 
 const edges = {
   edges: {
@@ -17,4 +17,4 @@ const edges = {
   }
 };
 
-module.exports = edges;
+export default edges;

@@ -1,4 +1,4 @@
-const RegularPolygon = require("./prototypes/RegularPolygon");
+import RegularPolygon from "./prototypes/RegularPolygon";
 
 function Pentagon({ center, sideLength }) {
   RegularPolygon.call(this, {
@@ -12,4 +12,4 @@ Pentagon.prototype = Object.create(RegularPolygon.prototype);
 
 Pentagon.of = ({ center, sideLength }) => new Pentagon({ center, sideLength })
 
-module.exports = Pentagon;
+export default Pentagon;

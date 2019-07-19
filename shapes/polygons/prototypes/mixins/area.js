@@ -1,4 +1,4 @@
-const { divide } = require("sjb-utils/Math");
+import { divide } from "sjb-utils/Math";
 
 // use with regular polygons only
 const area = {
@@ -10,4 +10,4 @@ const area = {
   }
 };
 
-module.exports = area;
+export default area;

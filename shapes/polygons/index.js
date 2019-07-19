@@ -1,14 +1,14 @@
-const EqTriangle = require("./EqTriangle");
-const Rectangle = require("./Rectangle");
-const Circle = require("./Circle");
-const Hexagon = require("./Hexagon");
-const Square = require("./Square");
-const Pentagon = require("./Pentagon");
-const prototypes = require("./prototypes");
-const Octagon = require("./Octagon");
-const Triangle = require("./Triangle");
+import EqTriangle from "./EqTriangle";
+import Rectangle from "./Rectangle";
+import Circle from "./Circle";
+import Hexagon from "./Hexagon";
+import Square from "./Square";
+import Pentagon from "./Pentagon";
+import * as prototypes from "./prototypes";
+import Octagon from "./Octagon";
+import Triangle from "./Triangle";
 
-module.exports = {
+export {
   EqTriangle,
   Rectangle,
   Circle,

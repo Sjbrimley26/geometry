@@ -1,11 +1,11 @@
-const Polygon = require("./Polygon");
-const {
+import Polygon from "./Polygon";
+import {
   area,
   circumcircle,
   inscribedCircle,
   regularApothem,
   vertices
-} = require("./mixins");
+} from "./mixins";
 
 function RegularPolygon({ center, sides, sideLength }) {
   Polygon.call(this, { center, sides });
@@ -22,4 +22,4 @@ Object.defineProperties(RegularPolygon.prototype, {
   ...vertices
 });
 
-module.exports = RegularPolygon;
+export default RegularPolygon;

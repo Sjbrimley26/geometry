@@ -1,6 +1,6 @@
-const Polygon = require("./prototypes/Polygon");
-const Circle = require("./Circle");
-const Line = require("../Line");
+import Polygon from "./prototypes/Polygon";
+import Circle from "./Circle";
+import Line from "../Line";
 
 function Triangle(...points) {
   Polygon.call(this, { center: null, sides: 3 });
@@ -27,8 +27,8 @@ Object.defineProperties(Triangle.prototype, {
       return Circle.of({ center, radius: apothem });
     }
   }
-})
+});
 
-Triangle.from3Points = (...points) => new Triangle(...points);
+Triangle.from3Points = (...points) => new Triangle(...points)
 
-module.exports = Triangle;
+export default Triangle;

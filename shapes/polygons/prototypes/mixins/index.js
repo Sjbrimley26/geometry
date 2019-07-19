@@ -1,15 +1,15 @@
-const area = require("./area");
-const circumcircle = require("./circumcircle");
-const edges = require("./edges");
-const inscribedCircle = require("./inscribedCircle");
-const irregularApothem = require("./irregularApothem");
-const perimeter = require("./perimeter");
-const regularApothem = require("./regularApothem");
-const vertices = require("./vertices");
-const midpoints = require("./midpoints");
-const normals = require("./normals");
+import area from "./area";
+import circumcircle from "./circumcircle";
+import edges from "./edges";
+import inscribedCircle from "./inscribedCircle";
+import irregularApothem from "./irregularApothem";
+import perimeter from "./perimeter";
+import regularApothem from "./regularApothem";
+import vertices from "./vertices";
+import midpoints from "./midpoints";
+import normals from "./normals";
 
-module.exports = {
+export {
   area,
   circumcircle,
   edges,

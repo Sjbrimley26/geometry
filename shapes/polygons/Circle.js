@@ -1,14 +1,13 @@
 const { PI: pi, sin, cos, pow } = Math;
-const Point = require("../Point");
-const Line = require("../Line");
-const { 
+import Point from "../Point";
+import Line from "../Line";
+import { 
   multiply,
   toFixedFloat,
   divide,
   sqrt 
-} = require("sjb-utils/Math");
-const Polygon = require("./prototypes/Polygon");
-// const { renderShape } = require("../../canvas");
+} from "sjb-utils/Math";
+import Polygon from "./prototypes/Polygon";
 
 function Circle({center, radius}) {
   Polygon.call(this, { center, sides: 360 });
@@ -150,4 +149,4 @@ Circle.fromLine = line => {
   return Circle.of({ center, radius });
 }
 
-module.exports = Circle;
+export default Circle;

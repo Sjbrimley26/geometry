@@ -1,6 +1,5 @@
-const { PI: pi } = Math;
-const { divide, toRadians } = require("sjb-utils/Math");
-const { range } = require("sjb-utils/Arrays")
+import { divide, toRadians } from "sjb-utils/Math";
+import { range } from "sjb-utils/Arrays"
 
 // use with regular polygons only
 const vertices = {
@@ -16,4 +15,4 @@ const vertices = {
   }
 };
 
-module.exports = vertices;
+export default vertices;
