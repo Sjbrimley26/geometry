@@ -141,18 +141,12 @@ Circle.of = ({ center, radius }) => new Circle({center, radius})
 Circle.from3Points = (p1, p2, p3) => {
   if (Point.orientation(p1, p2, p3) == 0) return undefined;
   const lines = [Line(p1, p2), Line(p2, p3)];
-  const perpendiculars = 
-    lines
-      .map(l => l.getPerpendicular())
-      .map(trace)
-      .map(l => {
-        l.length = length.length * 2;
-        return l;
-      })
-  const center = perpendiculars[0].getPointOfIntersection(perpendiculars[1]);
+  let perpendiculars = lines.map(l => l.getPerpendicular());
+  let center = perpendiculars[0].getPointOfIntersection(perpendiculars[1]);
   if (!center) {
-    console.info("No center!");
-    // still a little buggy, creates a bigger circle on 2 certain degrees
+    debugger;
+    console.log("No intersection!");
+    console.log(perpendiculars)
     return undefined;
   }
   const radius = Line(center, p1).length;

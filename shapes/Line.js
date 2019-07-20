@@ -11,19 +11,8 @@ import {
 } from "sjb-utils/Math";
 
 function line(start, end) {
-  console.log({ start, end });
-  /*
   this.start = start;
   this.end = end;
-  */
-  const ex = end.x;
-  const ey = end.y;
-  const endP = Point(ex, ey);
-  console.log("END POINT", endP);
-  this.start = Point(start.x, start.y);
-  this.end = endP;
-
-  console.log("LINE", this);
 }
 
 line.prototype.isPointOnLine = function(point) {
@@ -75,24 +64,33 @@ line.prototype.getPointOfIntersection = function(line2) {
 }
 
 line.prototype.getPerpendicular = function() {
-  // BUG - returned Line's endpoints are NaN even though
-  //       the correct values are being passed into the
-  //       line constructor
-
   const { slope, length, center } = this;
-  const inv = -1 * divide(1)(slope);
   const { x, y } = center;
-  const b = subtract(y)(inv * x);
+  let inv = -1 * divide(1)(slope);
+  let x0, x1, y0, y1, b;
+
+  if (isNaN(inv)) {
+    x0 = -1000;
+    x1 = 1000;
+    y0 = y;
+    y1 = y;
+  } else if (!isFinite(inv) && !isNaN(inv)) {
+    x0 = x;
+    x1 = x;
+    y0 = -1000;
+    y1 = 1000;
+  } else {
+    x0 = -1000;
+    x1 = 1000;
+    b = subtract(y)(inv * x);
+    y0 = x0 * inv + b;
+    y1 = x1 * inv + b;
+  }
   
-  const x0 = x - Math.floor(length);
-  const y0 = x0 * inv + b;
-  const x1 = x + Math.floor(length);
-  const y1 = x1 * inv + b;
-  console.log({ x0, y0, x1, y1 });
   const start = Point(x0, y0);
   const end = Point(x1, y1);
-  console.log({ start, end });
-  return Line(start, end);
+  const newLine = Line(start, end);
+  return newLine;
   
  /*
   return Line(
