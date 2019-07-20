@@ -33,7 +33,6 @@ Object.defineProperties(Rectangle.prototype, {
   circumcircle: {
     get: function() {
       const points = this.vertices.slice(0, 3);
-      console.log(points);
       return Circle.from3Points(...points);
     }
   }

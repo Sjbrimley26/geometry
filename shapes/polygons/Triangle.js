@@ -2,6 +2,7 @@ import Polygon from "./prototypes/Polygon";
 import Circle from "./Circle";
 import Line from "../Line";
 import { rotatePoint } from "../actions";
+import { max } from "sjb-utils/Math";
 
 function Triangle(...points) {
   this.sides = 3;
@@ -26,6 +27,18 @@ Object.defineProperties(Triangle.prototype, {
       const l0 = Line(s0, e0);
       const l1 = Line(s1, e1);
       return l0.getPointOfIntersection(l1);
+    },
+
+    set: function({ x, y }) {
+      const { center } = this;
+      const dx = x - center.x;
+      const dy = y - center.y;
+      this._vertices = this._vertices.map(p => {
+        p.x += dx;
+        p.y += dy;
+        return p;
+      });
+      return true;
     }
   },
 
@@ -45,7 +58,9 @@ Object.defineProperties(Triangle.prototype, {
 
   circumcircle: {
     get: function() {
-      return Circle.from3Points(...this.vertices);
+      const { vertices, center } = this;
+      const furthest = max(vertices.map(p => Line(p, center).length));
+      return Circle.of({ center, radius: furthest });
     }
   }
 });

@@ -1,6 +1,8 @@
 import { Point, Line, polygons } from "../shapes";
 import { multiply, toRadians } from "sjb-utils/Math";
 import { get } from "sjb-utils/Objects";
+import { addTimer } from "sjb-utils/Time";
+
 const {
   EqTriangle,
   Hexagon,
@@ -94,18 +96,38 @@ const render = () => {
   }
   rotation += 1;
 
+  const p = Point(300, 300);
+  three.center = rotatePoint(p, rotation * 2)(startPos);
+
   shapes.forEach(s => {
-    // s.circumcircle && renderShape(s.circumcircle);
+    s.circumcircle && renderShape(s.circumcircle);
     renderShape(s, "#4287f5");
     // s.inscribedCircle && renderShape(s.inscribedCircle);
-    // s.vertices.forEach(p => renderShape(p));
+    s.vertices.forEach(p => renderShape(p));
+    renderShape(s.center);
     s.rotation = rotation;
   });
 
-  const p = Point(300, 300);
-  three.center = rotatePoint(p, rotation * 2)(startPos);
   const l = Line(p, three.center);
   renderShape(l);
+
+  /*
+  ty.center.x += 1;
+  This one doesn't work
+
+  ty.center = { x: ty.center.x + 1, y: ty.center.y };
+  This one does
+
+  square.center.x +=1;
+  This works too, though.
+  I imagine because the vertices are based around the center
+  for regular polygons and its the other way around for Triangles.
+
+  */
+
+  window.requestAnimationFrame(render);
 }
 
-setInterval(render, 20);
+const timedRender = addTimer(render);
+
+timedRender();

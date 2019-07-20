@@ -9,6 +9,7 @@ import {
   toRadians
 } from "sjb-utils/Math";
 import Polygon from "./prototypes/Polygon";
+import { trace } from "sjb-utils/Misc";
 
 function Circle({center, radius}) {
   Polygon.call(this, { center, sides: 360 });
@@ -140,10 +141,17 @@ Circle.of = ({ center, radius }) => new Circle({center, radius})
 Circle.from3Points = (p1, p2, p3) => {
   if (Point.orientation(p1, p2, p3) == 0) return undefined;
   const lines = [Line(p1, p2), Line(p2, p3)];
-  const perpendiculars = lines.map(l => l.getPerpendicular());
+  const perpendiculars = 
+    lines
+      .map(l => l.getPerpendicular())
+      .map(trace)
+      .map(l => {
+        l.length = length.length * 2;
+        return l;
+      })
   const center = perpendiculars[0].getPointOfIntersection(perpendiculars[1]);
   if (!center) {
-    debugger;
+    console.info("No center!");
     // still a little buggy, creates a bigger circle on 2 certain degrees
     return undefined;
   }

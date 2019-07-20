@@ -13,6 +13,7 @@ import {
 function line(start, end) {
   this.start = start;
   this.end = end;
+  console.log("LINE", this);
 }
 
 line.prototype.isPointOnLine = function(point) {
@@ -65,18 +66,19 @@ line.prototype.getPointOfIntersection = function(line2) {
 
 line.prototype.getPerpendicular = function() {
   // still a little buggy, try rotating a Triangle with the circumcircle visible
-  const inv = -1 * divide(1)(this.slope);
-  const { x, y } = this.center;
+  const { slope, length, center } = this;
+  const inv = -1 * divide(1)(slope);
+  const { x, y } = center;
   const b = subtract(y)(inv * x);
-  const x0 = x - Math.floor(this.length);
-  let y0 = x0 * inv + b;
-  const x1 = x + Math.floor(this.length);
-  let y1 = x1 * inv + b;
-  if (isNaN(y0)) {
-    y0 = y;
-    y1 = y;
-  }
-  return Line(Point(x0, y0), Point(x1, y1));
+  const x0 = x - Math.floor(length);
+  const y0 = x0 * inv + b;
+  const x1 = x + Math.floor(length);
+  const y1 = x1 * inv + b;
+  console.log({ x0, y0, x1, y1 });
+  const start = Point(x0, y0);
+  const end = Point(x1, y1);
+  console.log({ start, end });
+  return Line(start, end);
 }
 
 Object.defineProperties(line.prototype, {
@@ -96,10 +98,12 @@ Object.defineProperties(line.prototype, {
     },
     set: function(len) {
       const { x, y } = this.start;
+      const dx = this.end.x - x > 0 ? 1 : -1;
+      const dy = this.end.y - y > 0 ? 1 : -1;
       const angle = toFixedFloat(Math.atan(this.slope), 2);
       this.end = Point(
-        toFixedFloat(len * sin(angle) - x, 2),
-        toFixedFloat(len * cos(angle) - y, 2)
+        dx * toFixedFloat(len * sin(angle) - x, 2),
+        dy * toFixedFloat(len * cos(angle) - y, 2)
       );
       return true;
     }

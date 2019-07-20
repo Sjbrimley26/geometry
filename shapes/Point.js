@@ -1,9 +1,8 @@
-const { round } = Math;
 import Vector from "../physics/Vector";
 
 function point(x, y) {
-  this.x = round(x);
-  this.y = round(y);
+  this.x = Math.round(x);
+  this.y = Math.round(y);
 }
 
 point.prototype.toVector = function() {
@@ -13,7 +12,9 @@ point.prototype.toVector = function() {
   return v;
 }
 
-const Point = (x, y) => new point(x, y)
+const Point = function(x, y) {
+  return new point(x, y);
+}
 
 Point.orientation = (p1, p2, p3) => {
   // https://www.geeksforgeeks.org/orientation-3-ordered-points/
