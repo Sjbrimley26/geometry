@@ -11,8 +11,18 @@ import {
 } from "sjb-utils/Math";
 
 function line(start, end) {
+  console.log({ start, end });
+  /*
   this.start = start;
   this.end = end;
+  */
+  const ex = end.x;
+  const ey = end.y;
+  const endP = Point(ex, ey);
+  console.log("END POINT", endP);
+  this.start = Point(start.x, start.y);
+  this.end = endP;
+
   console.log("LINE", this);
 }
 
@@ -65,11 +75,15 @@ line.prototype.getPointOfIntersection = function(line2) {
 }
 
 line.prototype.getPerpendicular = function() {
-  // still a little buggy, try rotating a Triangle with the circumcircle visible
+  // BUG - returned Line's endpoints are NaN even though
+  //       the correct values are being passed into the
+  //       line constructor
+
   const { slope, length, center } = this;
   const inv = -1 * divide(1)(slope);
   const { x, y } = center;
   const b = subtract(y)(inv * x);
+  
   const x0 = x - Math.floor(length);
   const y0 = x0 * inv + b;
   const x1 = x + Math.floor(length);
@@ -79,6 +93,19 @@ line.prototype.getPerpendicular = function() {
   const end = Point(x1, y1);
   console.log({ start, end });
   return Line(start, end);
+  
+ /*
+  return Line(
+    Point(
+      x - Math.floor(length), 
+      (x- Math.floor(length)) * inv + b
+    ),
+    Point(
+      x + Math.floor(length),
+      (x + Math.floor(length)) * inv + b
+    )
+  );
+  */
 }
 
 Object.defineProperties(line.prototype, {
