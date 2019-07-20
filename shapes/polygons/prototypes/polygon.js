@@ -7,6 +7,7 @@ import normals from "./mixins/normals";
 function Polygon({ center, sides }) {
   this.center = center;
   this.sides = sides;
+  this.rotation = 0;
 }
 
 Object.defineProperties(Polygon.prototype, {

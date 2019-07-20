@@ -1,5 +1,5 @@
 import { Point, Line, polygons } from "../shapes";
-import { multiply } from "sjb-utils/Math";
+import { multiply, toRadians } from "sjb-utils/Math";
 import { get } from "sjb-utils/Objects";
 const {
   EqTriangle,
@@ -15,7 +15,8 @@ const {
 
 const { Polygon } = prototypes;
 
-import { renderShape } from "../canvas";
+import { renderShape, refresh } from "../canvas";
+import { rotatePoint } from "../shapes/actions";
 
 const hex = Hexagon.of({
   center: Point(420, 100),
@@ -38,12 +39,7 @@ const tri = EqTriangle.of({
 });
 
 const circle = Circle.of({
-  center: Point(280, 300),
-  radius: 20
-});
-
-const c2 = Circle.of({
-  center: Point(310, 300),
+  center: Point(300, 300),
   radius: 20
 });
 
@@ -65,7 +61,6 @@ const ty = Triangle.from3Points(
   Point(350, 470)
 );
 
-
 const points = [
   Point(120, 300),
   Point(170, 290),
@@ -82,22 +77,35 @@ const shapes = [
   oct,
   square,
   circle,
-  c2,
   pent,
   three,
   tri,
   ty
 ];
 
-shapes.map(s => {
-  // s.circumcircle && renderShape(s.circumcircle);
-  renderShape(s, "#4287f5");
-  s.inscribedCircle && renderShape(s.inscribedCircle);
-  s.vertices.forEach(p => renderShape(p));
-});
+let rotation = 0;
+let startPos = three.center;
 
-points.map(p => renderShape(p, "#75f542"));
+const render = () => {
+  refresh();
 
-circle.getPointsOfIntersection(c2).map(p => renderShape(p, "#75f542"));
+  if (rotation === 359) {
+    rotation = -1;
+  }
+  rotation += 1;
 
-console.log(ty instanceof Polygon);
+  shapes.forEach(s => {
+    // s.circumcircle && renderShape(s.circumcircle);
+    renderShape(s, "#4287f5");
+    // s.inscribedCircle && renderShape(s.inscribedCircle);
+    // s.vertices.forEach(p => renderShape(p));
+    s.rotation = rotation;
+  });
+
+  const p = Point(300, 300);
+  three.center = rotatePoint(p, rotation * 2)(startPos);
+  const l = Line(p, three.center);
+  renderShape(l);
+}
+
+setInterval(render, 20);

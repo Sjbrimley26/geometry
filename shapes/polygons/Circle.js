@@ -5,7 +5,8 @@ import {
   multiply,
   toFixedFloat,
   divide,
-  sqrt 
+  sqrt,
+  toRadians
 } from "sjb-utils/Math";
 import Polygon from "./prototypes/Polygon";
 
@@ -74,6 +75,7 @@ Circle.prototype.isPointWithinCircle = function(p) {
 Object.defineProperties(Circle.prototype, {
   vertices: {
     get: function() {
+      const { rotation } = this;
       return [
         0,
         pi / 4,
@@ -83,7 +85,8 @@ Object.defineProperties(Circle.prototype, {
         5 * pi / 4,
         3 * pi / 2,
         7 * pi / 4
-      ].map(angle => this.getPointOnCircle(angle));
+      ].map(a => a - toRadians(rotation))
+       .map(angle => this.getPointOnCircle(angle));
     }
   },
 
@@ -139,6 +142,11 @@ Circle.from3Points = (p1, p2, p3) => {
   const lines = [Line(p1, p2), Line(p2, p3)];
   const perpendiculars = lines.map(l => l.getPerpendicular());
   const center = perpendiculars[0].getPointOfIntersection(perpendiculars[1]);
+  if (!center) {
+    debugger;
+    // still a little buggy, creates a bigger circle on 2 certain degrees
+    return undefined;
+  }
   const radius = Line(center, p1).length;
   return Circle.of({ center, radius });
 }

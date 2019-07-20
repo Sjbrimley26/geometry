@@ -57,20 +57,25 @@ line.prototype.getPointOfIntersection = function(line2) {
   const { start: s1, slope: m1 } = line2;
   const { x: x1, y: y1 } = s1;
 
-  return Point(
-            toFixedFloat((m0*x0 - m1*x1 + y1 - y0) / (m0 - m1), 2),
-            toFixedFloat((m0*m1*(x1-x0) + m1*y0 - m0*y1) / (m1 - m0), 2)
-          );
+  const x = toFixedFloat((m0 * x0 - m1 * x1 + y1 - y0) / (m0 - m1), 2);
+  const y = toFixedFloat((m0 * m1 * (x1 - x0) + m1 * y0 - m0 * y1) / (m1 - m0), 2);
+
+  return Point(x, y);
 }
 
 line.prototype.getPerpendicular = function() {
+  // still a little buggy, try rotating a Triangle with the circumcircle visible
   const inv = -1 * divide(1)(this.slope);
   const { x, y } = this.center;
   const b = subtract(y)(inv * x);
   const x0 = x - Math.floor(this.length);
-  const y0 = x0 * inv + b;
+  let y0 = x0 * inv + b;
   const x1 = x + Math.floor(this.length);
-  const y1 = x1 * inv + b;
+  let y1 = x1 * inv + b;
+  if (isNaN(y0)) {
+    y0 = y;
+    y1 = y;
+  }
   return Line(Point(x0, y0), Point(x1, y1));
 }
 

@@ -1,6 +1,8 @@
 import Point from "../Point";
+import Circle from "./Circle";
 import { divide } from "sjb-utils/Math";
 import IrregularPolygon from "./prototypes/IrregularPolygon";
+import { rotatePoint } from "../actions";
 
 function Rectangle({ center, length, width }) {
   IrregularPolygon.call(this, { center, sides: 4 });
@@ -17,14 +19,22 @@ Object.defineProperties(Rectangle.prototype, {
 
   vertices: {
     get: function() {
-      const { center, length, width } = this;
+      const { center, length, width, rotation } = this;
       const { x, y } = center;
       return [
         Point(x + divide(width)(2), y + divide(length)(2)),
         Point(x + divide(width)(2), y - divide(length)(2)),
         Point(x - divide(width)(2), y - divide(length)(2)),
         Point(x - divide(width)(2), y + divide(length)(2))
-      ];
+      ].map(rotatePoint(center, rotation));
+    }
+  },
+
+  circumcircle: {
+    get: function() {
+      const points = this.vertices.slice(0, 3);
+      console.log(points);
+      return Circle.from3Points(...points);
     }
   }
 });

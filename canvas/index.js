@@ -71,8 +71,13 @@ const renderShape = (shape, fillStyle, strokeStyle) => {
   }), fillStyle, fillStyle);
 }
 
+const refresh = () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+}
+
 export {
   canvas,
   ctx,
-  renderShape
+  renderShape,
+  refresh
 };
