@@ -3,7 +3,7 @@ import Circle from "./Circle";
 import Line from "../Line";
 
 function Triangle(...points) {
-  Polygon.call(this, { center: null, sides: 3 });
+  this.sides = 3;
   this.vertices = [...points];
 }
 
@@ -29,6 +29,8 @@ Object.defineProperties(Triangle.prototype, {
   }
 });
 
-Triangle.from3Points = (...points) => new Triangle(...points)
+Triangle.from3Points = function(...points) {
+  return new Triangle(...points);
+}
 
 export default Triangle;

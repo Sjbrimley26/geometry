@@ -9,8 +9,12 @@ const {
   Pentagon,
   Octagon,
   Rectangle,
-  Triangle
+  Triangle,
+  prototypes
 } = polygons;
+
+const { Polygon } = prototypes;
+
 import { renderShape } from "../canvas";
 
 const hex = Hexagon.of({
@@ -54,13 +58,13 @@ const rect = Rectangle.of({
   width: 200
 });
 
-/*
+
 const ty = Triangle.from3Points(
   Point(300, 440),
   Point(310, 520),
   Point(350, 470)
 );
-*/
+
 
 const points = [
   Point(120, 300),
@@ -82,7 +86,7 @@ const shapes = [
   pent,
   three,
   tri,
-  // ty
+  ty
 ];
 
 shapes.map(s => {
@@ -95,3 +99,5 @@ shapes.map(s => {
 points.map(p => renderShape(p, "#75f542"));
 
 circle.getPointsOfIntersection(c2).map(p => renderShape(p, "#75f542"));
+
+console.log(ty instanceof Polygon);
