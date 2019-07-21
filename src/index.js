@@ -18,7 +18,7 @@ const {
 const { Polygon } = prototypes;
 
 import { renderShape, refresh } from "../canvas";
-import { rotatePoint } from "../shapes/actions";
+import { rotatePoint, moveTo, detectCollision } from "../shapes/actions";
 
 const hex = Hexagon.of({
   center: Point(420, 100),
@@ -100,16 +100,25 @@ const render = () => {
   three.center = rotatePoint(p, rotation * 2)(startPos);
 
   shapes.forEach(s => {
-    s.circumcircle && renderShape(s.circumcircle);
+    // s.circumcircle && renderShape(s.circumcircle);
     renderShape(s, "#4287f5");
     // s.inscribedCircle && renderShape(s.inscribedCircle);
-    s.vertices.forEach(p => renderShape(p));
+    // s.vertices.forEach(p => renderShape(p));
     renderShape(s.center);
     s.rotation = rotation;
+
+    shapes.forEach(other => {
+      if (s === other) return;
+      if (detectCollision(s, other)) {
+        renderShape(s, "#ff0000");
+      }
+    })
   });
 
   const l = Line(p, three.center);
   renderShape(l);
+
+  moveTo(ty.center.x + 1, ty.center.y)(ty);
 
   /*
   ty.center.x += 1;

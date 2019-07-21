@@ -8,7 +8,10 @@ import {
   toFixedFloat,
   cos,
   sin,
+  toRadians,
+  slopeToDegrees
 } from "sjb-utils/Math";
+import Vector from "../physics/Vector";
 
 function line(start, end) {
   this.start = start;
@@ -74,7 +77,7 @@ line.prototype.getPerpendicular = function() {
     x1 = 1000;
     y0 = y;
     y1 = y;
-  } else if (!isFinite(inv) && !isNaN(inv)) {
+  } else if (!isFinite(inv)) {
     x0 = x;
     x1 = x;
     y0 = -1000;
@@ -104,6 +107,18 @@ line.prototype.getPerpendicular = function() {
     )
   );
   */
+}
+
+line.prototype.toVector = function() {
+  const { slope, length } = this;
+  const direction = toRadians(slopeToDegrees(slope));
+  const magnitude = length;
+  return Vector.of(direction, magnitude);
+}
+
+line.prototype.addVector = function(vec) {
+  this.start = this.start.addVector(vec);
+  this.end = this.end.addVector(vec);
 }
 
 Object.defineProperties(line.prototype, {

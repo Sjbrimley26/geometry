@@ -12,6 +12,12 @@ point.prototype.toVector = function() {
   return v;
 }
 
+point.prototype.addVector = function(vector) {
+  // returns a new Point
+  const { x, y } = vector;
+  return Point(x + this.x, y + this.y);
+}
+
 const Point = function(x, y) {
   return new point(x, y);
 }
