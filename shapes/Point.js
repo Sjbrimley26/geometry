@@ -1,4 +1,5 @@
 import Vector from "../physics/Vector";
+import { sqrt, pow, toFixedFloat } from "sjb-utils/Math";
 
 function point(x, y) {
   this.x = Math.round(x);
@@ -6,10 +7,10 @@ function point(x, y) {
 }
 
 point.prototype.toVector = function() {
-  const v = Vector.of(0, 0);
-  v.x = this.x;
-  v.y = this.y;
-  return v;
+  const { x, y } = this;
+  const magnitude = sqrt(pow(x)(2) + pow(y)(2));
+  const direction = toFixedFloat(Math.atan(y/x), 2);
+  return Vector.of(direction, magnitude);
 }
 
 point.prototype.addVector = function(vector) {

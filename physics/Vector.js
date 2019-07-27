@@ -59,6 +59,14 @@ Vector.prototype.crossProduct = function(vector) {
   return subtract(x0 * y1)(y0 * x1);
 }
 
+Vector.prototype.getPerpendicular = function() {
+  const x = this.y;
+  const y = -this.x;
+  const magnitude = sqrt(pow(x)(2) + pow(y)(2));
+  const direction = toFixedFloat(Math.atan(y/x), 2);
+  return Vector.of(direction, magnitude);
+}
+
 Object.defineProperties(Vector.prototype, {
   x: {
     get: function() { 

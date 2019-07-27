@@ -2,6 +2,7 @@ import Line from "../Line";
 import Circle from "../polygons/Circle";
 import { head, sort, map } from "sjb-utils/Arrays";
 import { compose } from "sjb-utils/Functions";
+import { min } from "sjb-utils/Math";
 
 const distinct = prop => arr => {
   const res = [];
@@ -15,61 +16,51 @@ const distinct = prop => arr => {
   return res;
 }
 
-const getProjections = s => nrm => {
-  const norm = nrm.toVector();
+const getProjections = s => norm => {
   const getDP = pnt => pnt.toVector().dotProduct(norm);
 
   const getMinAndMax = (res, pnt) => {
-    const dp = pnt.toVector().dotProduct(norm);
-    const currMin = res.length > 0 ? getDP(res[0]) : null;
-    const currMax = res.length > 1 ? getDP(res[1]) : null;
+    const dp = getDP(pnt);
+    const currMin = res.length > 0 ? res[0] : null;
+    const currMax = res.length > 1 ? res[1] : null;
     if (currMin === null) {
-      return [pnt];
+      return [dp];
     }
     if (currMax === null) {
-      return dp < currMin ? [pnt, res[0]] : [res[0], pnt];
+      return dp < currMin ? [dp, res[0]] : [res[0], dp];
     }
     if (dp < currMin) {
-      return [pnt, res[1]];
+      return [dp, res[1]];
     }
     if (dp > currMax) {
-      return [res[0], pnt];
+      return [res[0], dp];
     }
     return res;
   };
 
-  const pnts = s.vertices.reduce(getMinAndMax).map(p => p.addVector(norm));
+  const pnts = s.vertices.reduce(getMinAndMax, []);
 
-  return Line(...pnts);
+  return pnts;
 };
 
-const getOverlap = (l1, l2) => { // 2 lines
-  const { start: a, end: b } = l1;
-  const { start: c, end: d } = l2;
-  const oA = l2.isPointOnLine(a);
-  const oB = l2.isPointOnLine(b);
-  const oC = l1.isPointOnLine(c);
-  const oD = l1.isPointOnLine(d);
-  const noOverlap = !oA && !oB && !oC && !oD;
-  if (noOverlap) return undefined;
-  const AC = Line(a,c);
-  const AD = Line(a,d);
-  const BC = Line(b,c);
-  const BD = Line(b,d);
-  const mpv = head(sort((a, b) => a.length - b.length)([
-    AC,
-    AD,
-    BC,
-    BD
-  ]));
-  return mpv ? mpv.toVector() : undefined;
+const getOverlap = (l1, l2) => { // 2 projections
+  const [min1, max1] = l1;
+  const [min2, max2] = l2;
+  if (min1 > max2 || max1 < min2) return false;
+  const differences = [
+    min1 - min2,
+    min1 - max2,
+    max1 - min1,
+    max1 - max2
+  ];
+  return min(differences);
 }
 
 const detectCollision = (a, b) => {
   // uses the Separating Axis Theorem
   const aIsCircle = a instanceof Circle;
   const bIsCircle = b instanceof Circle;
-  let normals, mpv;
+  let normals, mtv;
 
   if (aIsCircle && bIsCircle) {
     const l = Line(a.center, b.center)
@@ -98,22 +89,23 @@ const detectCollision = (a, b) => {
     normals = a.normals.concat(b.normals);
   }
 
-  const axes = distinct("slope")(normals);
+  // const axes = distinct("direction")(normals);
+  const axes = normals;
   const aProjections = axes.map(getProjections(a));
   const bProjections = axes.map(getProjections(b));
   for (const i in aProjections) {
     const aP = aProjections[i];
     const bP = bProjections[i];
-    const overlap = getOverlap(aP, bP);
-    if (!overlap) {
+    const o = getOverlap(aP, bP);
+    if (!o) {
       return undefined;
     }
-    if (!mpv || mpv.magnitude > overlap.magnitude) {
-      mpv = overlap;
+    if (!mtv || mtv > o) {
+      mtv = o;
       continue;
     }
   }
-  return mpv;
+  return mtv;
 }
 
 export default detectCollision;

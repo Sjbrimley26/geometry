@@ -1,6 +1,5 @@
 import { Point, Line, polygons } from "../shapes";
 import { multiply, toRadians, add } from "sjb-utils/Math";
-import { get } from "sjb-utils/Objects";
 import { addTimer } from "sjb-utils/Time";
 
 const {
@@ -15,130 +14,65 @@ const {
   prototypes
 } = polygons;
 
-const { Polygon } = prototypes;
-
 import { renderShape, refresh } from "../canvas";
-import { rotatePoint, moveRelative, detectCollision } from "../shapes/actions";
+import { rotatePoint, moveRelative, detectCollision, moveTo } from "../shapes/actions";
 
-const hex = Hexagon.of({
-  center: Point(420, 100),
-  sideLength: 50
+const h = Hexagon.of({
+  center: Point(100, 100),
+  sideLength: 20
 });
 
-const oct = Octagon.of({
-  center: Point (395, 225),
-  sideLength: 35
+const o = Octagon.of({
+  center: Point(200, 100),
+  sideLength: 20
 });
 
-const square = Square.of({
-  center: Point(150, 440),
-  sideLength: 150
+const sq = Square.of({
+  center: Point(200, 180),
+  sideLength: 20
 });
 
 const tri = EqTriangle.of({
-  center: Point(300, 180),
-  sideLength: 50
-});
-
-const circle = Circle.of({
-  center: Point(300, 300),
-  radius: 20
-});
-
-const pent = Pentagon.of({
-  center: Point(320, 100),
+  center: Point(120, 80),
   sideLength: 40
 });
 
-const rect = Rectangle.of({
-  center: Point(150, 150),
-  length: 100,
-  width: 200
+const cir = Circle.of({
+  center: Point(270, 100),
+  radius: 32
 });
 
+const shapes = [ h, o, sq, tri, cir ];
 
-const ty = Triangle.from3Points(
-  Point(300, 440),
-  Point(310, 520),
-  Point(350, 470)
-);
-
-const points = [
-  Point(120, 300),
-  Point(170, 290),
-  Point(150, 350)
-];
-
-const three = Circle.from3Points(
-  ...points
-);
-
-const shapes = [
-  rect,
-  hex,
-  oct,
-  square,
-  circle,
-  pent,
-  three,
-  tri,
-  ty
-];
+const hOrigin = h.center;
 
 let rotation = 0;
-let startPos = three.center;
 
-const render = () => {
+const render = addTimer(() => {
   refresh();
 
-  if (rotation === 359) {
-    rotation = -1;
-  }
-  rotation += 1;
+  rotation++;
 
-  const p = Point(300, 300);
-  three.center = rotatePoint(p, rotation * 2)(startPos);
+  if (rotation == 360) rotation = 0;
 
-  shapes.forEach(s => {
-    // s.circumcircle && renderShape(s.circumcircle);
-    renderShape(s, "#4287f5");
-    // s.inscribedCircle && renderShape(s.inscribedCircle);
-    // s.vertices.forEach(p => renderShape(p));
-    renderShape(s.center);
-    s.rotation = rotation;
+  const newHPos = rotatePoint(o.center, rotation)(hOrigin);
+  moveTo(newHPos.x, newHPos.y)(h);
 
-    
-    shapes.forEach(other => {
-      if (s === other) return;
-      if (detectCollision(s, other)) {
-        renderShape(s, "#ff0000");
-      }
-    })
-    
+  shapes.forEach((s, i) => {
+    s.rotation = i % 2 == 0 ? rotation * 2 : rotation;
+    renderShape(s, "#0000ff")
   });
 
-  const l = Line(p, three.center);
-  renderShape(l);
-
-  moveRelative(0.5, 0)(ty);
-
-  /*
-  ty.center.x += 1;
-  This one doesn't work
-
-  ty.center = { x: ty.center.x + 1, y: ty.center.y };
-  This one does
-
-  square.center.x +=1;
-  This works too, though.
-  I imagine because the vertices are based around the center
-  for regular polygons and its the other way around for Triangles.
-
-  */
+  shapes.forEach(shape => {
+    shapes.forEach(other => {
+      if (shape === other) return;
+      if (detectCollision(shape, other)) {
+        renderShape(shape, "#ff0000");
+      }
+    });
+  });
 
   window.requestAnimationFrame(render);
-}
+});
 
-const timedRender = addTimer(render);
-
-timedRender();
+render();
