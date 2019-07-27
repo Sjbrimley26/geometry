@@ -42,10 +42,12 @@ Vector.prototype.multiply = function(scalar) {
 }
 
 Vector.prototype.dotProduct = function(vector) {
-  const { x: x0, y: y0 } = this;
-  const { x: x1, y: y1 } = vector;
+  const x0 = this.x;
+  const y0 = this.y;
+  const x1 = vector.x;
+  const y1 = vector.y;
   // 0 == vectors are at right angles
-  return add(x0 * x1)(y0 * y1);
+  return add(multiply(x0)(x1))(multiply(y0)(y1));
 }
 
 Vector.prototype.crossProduct = function(vector) {
@@ -60,21 +62,29 @@ Vector.prototype.crossProduct = function(vector) {
 Object.defineProperties(Vector.prototype, {
   x: {
     get: function() { 
-      return multiply(this.magnitude)(cos(this.direction)) 
+      return Math.round(multiply(this.magnitude)(cos(this.direction))) 
     },
     set: function(newX) {
-      this.magnitude = sqrt(pow(newX, 2) + pow(this.y, 2));
-      this.direction = toFixedFloat(toRadians(Math.atan(this.y / newX)), 2);
+      let magnitude = sqrt(pow(newX, 2) + pow(this.y, 2));
+      magnitude = isNaN(magnitude) ? 0 : magnitude;
+      let direction = toFixedFloat(toRadians(Math.atan(this.y / newX)), 2);
+      direction = isNaN(direction) ? 0 : direction;
+      this.magnitude = magnitude;
+      this.direction = direction;
     }
   },
   
   y: {
     get: function () {
-      return multiply(this.magnitude)(sin(this.direction))
+      return Math.round(multiply(this.magnitude)(sin(this.direction)))
     },
     set: function (newY) {
-      this.magnitude = sqrt(pow(this.x, 2) + pow(newY, 2));
-      this.direction = toFixedFloat(toRadians(Math.atan(newY / this.x)), 2);
+      let magnitude = sqrt(pow(this.x, 2) + pow(newY, 2));
+      magnitude = isNaN(magnitude) ? 0 : magnitude;
+      let direction = toFixedFloat(toRadians(Math.atan(newY / this.x)), 2);
+      direction = isNaN(direction) ? 0 : direction;
+      this.magnitude = magnitude;
+      this.direction = direction;
     }
   },
 });

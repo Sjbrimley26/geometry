@@ -1,5 +1,5 @@
 import { Point, Line, polygons } from "../shapes";
-import { multiply, toRadians } from "sjb-utils/Math";
+import { multiply, toRadians, add } from "sjb-utils/Math";
 import { get } from "sjb-utils/Objects";
 import { addTimer } from "sjb-utils/Time";
 
@@ -18,7 +18,7 @@ const {
 const { Polygon } = prototypes;
 
 import { renderShape, refresh } from "../canvas";
-import { rotatePoint, moveTo, detectCollision } from "../shapes/actions";
+import { rotatePoint, moveRelative, detectCollision } from "../shapes/actions";
 
 const hex = Hexagon.of({
   center: Point(420, 100),
@@ -107,18 +107,20 @@ const render = () => {
     renderShape(s.center);
     s.rotation = rotation;
 
+    
     shapes.forEach(other => {
       if (s === other) return;
       if (detectCollision(s, other)) {
         renderShape(s, "#ff0000");
       }
     })
+    
   });
 
   const l = Line(p, three.center);
   renderShape(l);
 
-  moveTo(ty.center.x + 1, ty.center.y)(ty);
+  moveRelative(0.5, 0)(ty);
 
   /*
   ty.center.x += 1;

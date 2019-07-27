@@ -73,15 +73,15 @@ line.prototype.getPerpendicular = function() {
   let x0, x1, y0, y1, b;
 
   if (isNaN(inv)) {
-    x0 = -1000;
-    x1 = 1000;
-    y0 = y;
-    y1 = y;
-  } else if (!isFinite(inv)) {
     x0 = x;
     x1 = x;
     y0 = -1000;
     y1 = 1000;
+  } else if (!isFinite(inv)) {
+    x0 = -1000;
+    x1 = 1000;
+    y0 = y;
+    y1 = y;
   } else {
     x0 = -1000;
     x1 = 1000;
@@ -111,7 +111,8 @@ line.prototype.getPerpendicular = function() {
 
 line.prototype.toVector = function() {
   const { slope, length } = this;
-  const direction = toRadians(slopeToDegrees(slope));
+  let direction = toFixedFloat(Math.atan(slope), 2);
+  direction = isNaN(direction) ? 0 : direction;
   const magnitude = length;
   return Vector.of(direction, magnitude);
 }
