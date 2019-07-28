@@ -67,6 +67,10 @@ Vector.prototype.getPerpendicular = function() {
   return Vector.of(direction, magnitude);
 }
 
+Vector.prototype.inverse = function() {
+  return Vector.of(this.direction + Math.PI, this.magnitude);
+}
+
 Object.defineProperties(Vector.prototype, {
   x: {
     get: function() { 

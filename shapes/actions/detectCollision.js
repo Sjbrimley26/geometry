@@ -1,20 +1,10 @@
 import Line from "../Line";
 import Circle from "../polygons/Circle";
-import { head, sort, map } from "sjb-utils/Arrays";
+import RegularPolygon from "../polygons/prototypes/RegularPolygon";
+import { head, sort, map, distinct } from "sjb-utils/Arrays";
 import { compose } from "sjb-utils/Functions";
 import { min } from "sjb-utils/Math";
-
-const distinct = prop => arr => {
-  const res = [];
-  const map = new Map();
-  for (const item of arr) {
-    if (!map.has(item[prop])) {
-      map.set(item[prop], true);
-      res.push(item);
-    }
-  }
-  return res;
-}
+import Vector from "../../physics/Vector";
 
 const getProjections = s => norm => {
   const getDP = pnt => pnt.toVector().dotProduct(norm);
@@ -46,21 +36,21 @@ const getProjections = s => norm => {
 const getOverlap = (l1, l2) => { // 2 projections
   const [min1, max1] = l1;
   const [min2, max2] = l2;
-  if (min1 > max2 || max1 < min2) return false;
+  if (min1 >= max2 || max1 <= min2) return false;
   const differences = [
     min1 - min2,
     min1 - max2,
     max1 - min1,
     max1 - max2
   ];
-  return min(differences);
+  return min(differences.map(Math.abs));
 }
 
 const detectCollision = (a, b) => {
   // uses the Separating Axis Theorem
   const aIsCircle = a instanceof Circle;
   const bIsCircle = b instanceof Circle;
-  let normals, mtv;
+  let normals;
 
   if (aIsCircle && bIsCircle) {
     const l = Line(a.center, b.center)
@@ -75,7 +65,8 @@ const detectCollision = (a, b) => {
       sort((a, b) => a.length - b.length),
       map(p => Line(p, a.center))
     )(b.vertices);
-    normals = b.normals.concat(axis);
+    if (axis.length > a.radius) return undefined;
+    normals = b.normals.concat(axis.toVector());
   }
   if (bIsCircle) {
     const axis = compose(
@@ -83,16 +74,24 @@ const detectCollision = (a, b) => {
       sort((a, b) => a.length - b.length),
       map(p => Line(p, b.center))
     )(a.vertices);
-    normals = a.normals.concat(axis);
+    if (axis.length > b.radius) return undefined;
+    normals = a.normals.concat(axis.toVector());
   }
   else {
+    const distance = Line(a.center, b.center).length;
+    if (
+      (a instanceof RegularPolygon && b instanceof RegularPolygon) && 
+      distance > a.sideLength + b.sideLength
+    ) {
+      return undefined;
+    }
     normals = a.normals.concat(b.normals);
   }
 
-  // const axes = distinct("direction")(normals);
-  const axes = normals;
+  const axes = distinct("direction")(normals);
   const aProjections = axes.map(getProjections(a));
   const bProjections = axes.map(getProjections(b));
+  let dist, smallest;
   for (const i in aProjections) {
     const aP = aProjections[i];
     const bP = bProjections[i];
@@ -100,12 +99,13 @@ const detectCollision = (a, b) => {
     if (!o) {
       return undefined;
     }
-    if (!mtv || mtv > o) {
-      mtv = o;
+    if (!dist || Math.abs(dist) > Math.abs(o)) {
+      dist = o;
+      smallest = axes[i];
       continue;
     }
   }
-  return mtv;
+  return Vector.of(smallest.direction, dist / 8);
 }
 
 export default detectCollision;

@@ -1,5 +1,7 @@
+import Point from "../Point";
+
 const moveTo = (x, y) => shape => {
-  shape.center = { x, y };
+  shape.center = Point(x, y);
   return shape;
 };
 

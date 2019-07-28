@@ -19,6 +19,11 @@ point.prototype.addVector = function(vector) {
   return Point(x + this.x, y + this.y);
 }
 
+point.prototype[Symbol.iterator] = function*() {
+  yield this.x;
+  yield this.y;
+}
+
 const Point = function(x, y) {
   return new point(x, y);
 }
