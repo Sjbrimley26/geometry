@@ -1,5 +1,5 @@
 import Rectangle from "./Rectangle";
-import circumcircle from "./prototypes/mixins/circumcircle";
+import circumcircle from "./prototypes/props/circumcircle";
 
 const Square = function({ center, sideLength }) {
   Rectangle.call(this, {

@@ -1,8 +1,8 @@
-import edges from "./mixins/edges";
-import perimeter from "./mixins/perimeter";
-import irregularApothem from "./mixins/irregularApothem";
-import midpoints from "./mixins/midpoints";
-import normals from "./mixins/normals";
+import edges from "./props/edges";
+import perimeter from "./props/perimeter";
+import irregularApothem from "./props/irregularApothem";
+import midpoints from "./props/midpoints";
+import normals from "./props/normals";
 
 function Polygon({ center, sides }) {
   this.center = center;

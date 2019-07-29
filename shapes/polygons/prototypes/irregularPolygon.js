@@ -1,5 +1,5 @@
 import Polygon from "./Polygon";
-import inscribedCircle from "./mixins/inscribedCircle";
+import inscribedCircle from "./props/inscribedCircle";
 
 function IrregularPolygon({ center, sides }) {
   Polygon.call(this, { center, sides });

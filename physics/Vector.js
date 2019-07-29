@@ -75,28 +75,12 @@ Object.defineProperties(Vector.prototype, {
   x: {
     get: function() { 
       return Math.round(multiply(this.magnitude)(cos(this.direction))) 
-    },
-    set: function(newX) {
-      let magnitude = sqrt(pow(newX, 2) + pow(this.y, 2));
-      magnitude = isNaN(magnitude) ? 0 : magnitude;
-      let direction = toFixedFloat(toRadians(Math.atan(this.y / newX)), 2);
-      direction = isNaN(direction) ? 0 : direction;
-      this.magnitude = magnitude;
-      this.direction = direction;
     }
   },
   
   y: {
     get: function () {
       return Math.round(multiply(this.magnitude)(sin(this.direction)))
-    },
-    set: function (newY) {
-      let magnitude = sqrt(pow(this.x, 2) + pow(newY, 2));
-      magnitude = isNaN(magnitude) ? 0 : magnitude;
-      let direction = toFixedFloat(toRadians(Math.atan(newY / this.x)), 2);
-      direction = isNaN(direction) ? 0 : direction;
-      this.magnitude = magnitude;
-      this.direction = direction;
     }
   },
 });

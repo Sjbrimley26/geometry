@@ -65,7 +65,8 @@ const detectCollision = (a, b) => {
       sort((a, b) => a.length - b.length),
       map(p => Line(p, a.center))
     )(b.vertices);
-    if (axis.length > a.radius) return undefined;
+    const centerDistance = Line(a.center, b.center).length;
+    if (axis.length > a.radius && centerDistance > a.radius) return undefined;
     normals = b.normals.concat(axis.toVector());
   }
   if (bIsCircle) {
@@ -74,7 +75,8 @@ const detectCollision = (a, b) => {
       sort((a, b) => a.length - b.length),
       map(p => Line(p, b.center))
     )(a.vertices);
-    if (axis.length > b.radius) return undefined;
+    const centerDistance = Line(a.center, b.center).length;
+    if (axis.length > b.radius && centerDistance > a.radius) return undefined;
     normals = a.normals.concat(axis.toVector());
   }
   else {

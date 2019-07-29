@@ -5,7 +5,7 @@ import {
   inscribedCircle,
   regularApothem,
   vertices
-} from "./mixins";
+} from "./props";
 
 function RegularPolygon({ center, sides, sideLength }) {
   Polygon.call(this, { center, sides });
