@@ -27,24 +27,19 @@ const h = Hexagon.of({
   sideLength: 20
 });
 
-const o = Octagon.of({
-  center: Point(180, 100),
-  sideLength: 20
+const p = Pentagon.of({
+  center: Point(260, 200),
+  sideLength: 28
 });
 
-const sq = Square.of({
-  center: Point(200, 180),
+const o = Octagon.of({
+  center: Point(180, 100),
   sideLength: 20
 });
 
 const tri = EqTriangle.of({
   center: Point(200, 0),
   sideLength: 40
-});
-
-const cir = Circle.of({
-  center: Point(262, 100),
-  radius: 15
 });
 
 const h2 = Hexagon.of({
@@ -65,19 +60,19 @@ const tri2 = EqTriangle.of({
 const shapes = [ 
   h,
   o,
-  sq,
   tri,
-  cir,
   h2,
   sq2,
-  tri2
+  tri2,
+  p
 ].map(s => {
+  s.center.x += 100;
   return Object.assign(s, movable(10));
 });
 
 let rotation = 0;
 
-const render = addTimer(() => {
+const render = () => {
   refresh();
   rTree.empty();
   
@@ -90,7 +85,7 @@ const render = addTimer(() => {
     s.move();
     if (s.center.y > 500) {
       s.center.y = 500;
-      s.speed.y = 0;
+      s.speed = { x: 0, y: 0 };
     }
     rTree.insertShape(s)
     renderShape(s, "#0000ff")
@@ -113,8 +108,20 @@ const render = addTimer(() => {
   })
 
   rTree.detectCollision(detectCollision, (shape, other, vec) => {
-    shape.center = shape.center.addVector(vec);
-    moveTo(...other.center.addVector(vec.inverse()))(other);
+    const direction = Line(shape.center, other.center).toVector().direction;
+    const invVec = vec.inverse();
+    const d1 = Math.abs(invVec.direction - direction);
+    const d2 = Math.abs(vec.direction - direction);
+    const vec1 = d1 > d2 ? invVec : vec;
+    const vec2 = d1 > d2 ? vec: invVec;
+    shape.speed = { x: 0, y: 0 };
+    other.speed = { x: 0, y: 0 };
+    shape.speed.x += vec1.x / 7;
+    shape.speed.y += vec1.y / 7;
+    other.speed.x -= vec1.x / 7;
+    other.speed.y -= vec1.y / 7;
+    shape.center = shape.center.addVector(vec1.scale(0.5));
+    other.center = other.center.addVector(vec2.scale(0.5));
     shape.center.y = shape.center.y > 500 ? 500 : shape.center.y;
     other.center.y = other.center.y > 500 ? 500 : other.center.y;
     renderShape(shape, "#ff0000");
@@ -123,6 +130,6 @@ const render = addTimer(() => {
 
   debugger;
   window.requestAnimationFrame(render);
-})
+}
 
 render();

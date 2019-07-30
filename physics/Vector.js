@@ -33,12 +33,11 @@ Vector.prototype.subtract = function(vector) {
   return v;
 }
 
-Vector.prototype.multiply = function(scalar) {
-  const { x, y } = this;
-  const v = Vector.of(0, 0);
-  v.x = x  * scalar;
-  v.y =  y * scalar;
-  return v;
+Vector.prototype.scale = function(scalar) {
+  return Vector.of(
+    this.direction,
+    multiply(this.magnitude)(scalar)
+  );
 }
 
 Vector.prototype.dotProduct = function(vector) {

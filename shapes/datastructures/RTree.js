@@ -112,23 +112,35 @@ const appendObjectsToList = (list, children) => {
 const detectCollision = function(detectorFn, cb) {
   if (this.children.length < 2) return false;
   const overlaps = checkIfChildrenOverlap(this.children);
+  
   if (overlaps) {
-    const objects = [];
-    overlaps.forEach(overlap => {
-      const child = [...overlap.keys()];
-      appendObjectsToList(objects, child);
+    const objects = overlaps.map(overlap => {
+      const objList = [];
+      const overlapping = [...overlap.values()];
+      const children = [...overlap.keys()];
+      overlapping.forEach(o => o.forEach(x => children.push(x)));
+      return appendObjectsToList(objList, children);
     });
 
-    objects.forEach(shape => {
-      shape.collided = false;
-      objects.forEach(other => {
-        if (shape === other) return;
-        let vec = detectorFn(shape, other);
-        if (vec) {
-          return cb(shape, other, vec);
-        }
+    objects.forEach(shapeArr => {
+      shapeArr.forEach(shape => {
+        shape.collided = false;
+        shapeArr.forEach(other => {
+          if (shape === other) return;
+          let vec = detectorFn(shape, other);
+          if (vec) {
+            return cb(shape, other, vec);
+          }
+        });
       });
     });
+
+    const children = overlaps.map(o => [...o.keys()]);
+
+    this.children.filter(c => !children.includes(c)).forEach(child => {
+      if (child instanceof LeafNode) return false;
+      child.detectCollision(detectorFn, cb);
+    })
 
     return;
   }

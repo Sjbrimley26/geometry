@@ -20,6 +20,8 @@ const movable = acceleration => {
       const { x, y } = this.center;
       const { speed } = this;
       this.center = Point(x + speed.x, y + speed.y);
+      this.speed.x *= 0.8;
+      this.speed.y *= 0.8;
       return this;
     },
 
