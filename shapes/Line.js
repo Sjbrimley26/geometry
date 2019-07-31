@@ -73,15 +73,15 @@ line.prototype.getPerpendicular = function() {
   let x0, x1, y0, y1, b;
 
   if (isNaN(inv)) {
-    x0 = x;
-    x1 = x;
-    y0 = -1000;
-    y1 = 1000;
-  } else if (!isFinite(inv)) {
     x0 = -1000;
     x1 = 1000;
     y0 = y;
     y1 = y;
+  } else if (!isFinite(inv)) {
+    x0 = x;
+    x1 = x;
+    y0 = -1000;
+    y1 = 1000;
   } else {
     x0 = -1000;
     x1 = 1000;
@@ -89,24 +89,8 @@ line.prototype.getPerpendicular = function() {
     y0 = x0 * inv + b;
     y1 = x1 * inv + b;
   }
-  
-  const start = Point(x0, y0);
-  const end = Point(x1, y1);
-  const newLine = Line(start, end);
-  return newLine;
-  
- /*
-  return Line(
-    Point(
-      x - Math.floor(length), 
-      (x- Math.floor(length)) * inv + b
-    ),
-    Point(
-      x + Math.floor(length),
-      (x + Math.floor(length)) * inv + b
-    )
-  );
-  */
+
+  return Line(Point(x0, y0), Point(x1, y1));
 }
 
 line.prototype.toVector = function() {

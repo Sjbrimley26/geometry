@@ -7,7 +7,8 @@ import {
   pow,
   toRadians,
   add,
-  subtract
+  subtract,
+  divide
 } from "sjb-utils/Math";
 
 function Vector({ direction, magnitude }) {
@@ -18,19 +19,16 @@ function Vector({ direction, magnitude }) {
 Vector.prototype.add = function(vector) {
   const { x: x0, y: y0 } = this;
   const { x: x1, y: y1 } = vector;
-  const v = Vector.of(0, 0);
-  v.x = x0 + x1;
-  v.y = y0 + y1;
-  return v;
+  const x = x0 + x1;
+  const y = y0 + y1;
+  let direction = toFixedFloat(Math.atan(divide(y)(x)), 2);
+  direction = isNaN(direction) ? 0 : direction;
+  const magnitude = toFixedFloat(Math.sqrt(pow(x)(2) + pow(y)(2)), 2);
+  return Vector.of(direction, magnitude);
 }
 
 Vector.prototype.subtract = function(vector) {
-  const { x: x0, y: y0 } = this;
-  const { x: x1, y: y1 } = vector;
-  const v = Vector.of(0, 0);
-  v.x = x0 - x1;
-  v.y = y0 - y1;
-  return v;
+  return this.add(vector.inverse());
 }
 
 Vector.prototype.scale = function(scalar) {

@@ -63,11 +63,15 @@ const shapes = [
   tri,
   h2,
   sq2,
-  tri2,
+  //tri2,
   p
 ].map(s => {
   s.center.x += 100;
-  return Object.assign(s, movable(10));
+  return Object.assign(s, movable({
+    mass: 10,
+    acceleration: 10,
+    elasticity: 0.5
+  }));
 });
 
 let rotation = 0;
@@ -83,10 +87,6 @@ const render = () => {
     // s.rotation = rotation * 2;
     s.fall();
     s.move();
-    if (s.center.y > 500) {
-      s.center.y = 500;
-      s.speed = { x: 0, y: 0 };
-    }
     rTree.insertShape(s)
     renderShape(s, "#0000ff")
   });
@@ -108,22 +108,7 @@ const render = () => {
   })
 
   rTree.detectCollision(detectCollision, (shape, other, vec) => {
-    const direction = Line(shape.center, other.center).toVector().direction;
-    const invVec = vec.inverse();
-    const d1 = Math.abs(invVec.direction - direction);
-    const d2 = Math.abs(vec.direction - direction);
-    const vec1 = d1 > d2 ? invVec : vec;
-    const vec2 = d1 > d2 ? vec: invVec;
-    shape.speed = { x: 0, y: 0 };
-    other.speed = { x: 0, y: 0 };
-    shape.speed.x += vec1.x / 7;
-    shape.speed.y += vec1.y / 7;
-    other.speed.x -= vec1.x / 7;
-    other.speed.y -= vec1.y / 7;
-    shape.center = shape.center.addVector(vec1.scale(0.5));
-    other.center = other.center.addVector(vec2.scale(0.5));
-    shape.center.y = shape.center.y > 500 ? 500 : shape.center.y;
-    other.center.y = other.center.y > 500 ? 500 : other.center.y;
+    shape.collide(other, vec);
     renderShape(shape, "#ff0000");
     renderShape(other, "#ff0000");
   })
