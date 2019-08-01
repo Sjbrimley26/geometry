@@ -12,7 +12,13 @@ import {
 } from "sjb-utils/Math";
 
 function Vector({ direction, magnitude }) {
-  this.direction = direction;
+  const d = 
+    direction > 2 * Math.PI
+      ? direction - (2 * Math.PI)
+      : direction < -2 * Math.PI
+        ? direction + (2 * Math.PI)
+        : direction;
+  this.direction = d;
   this.magnitude = magnitude;
 }
 

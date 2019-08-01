@@ -1,6 +1,7 @@
 import Vector from "../Vector";
 import Line from "../../shapes/Line";
-import { multiply } from "sjb-utils/Math";
+import { multiply, pow, divide } from "sjb-utils/Math";
+import { MAP_WIDTH } from "../../config";
 
 const movable = ({ mass, acceleration, elasticity }) => {
   return {
@@ -10,13 +11,19 @@ const movable = ({ mass, acceleration, elasticity }) => {
 
     mass,
 
+    elasticity,
+
     get momentum() {
       return multiply(this.mass)(this.velocity.magnitude);
     },
 
+    get kineticEnergy() {
+      return multiply(1/2 * this.mass)(pow(this.velocity.magnitude)(2));
+    },
+
     fall() {
       this.velocity = this.center.y < 500 
-        ? this.velocity.add(Vector.of(multiply(1 / 2)(Math.PI), 1)) 
+        ? this.velocity.add(Vector.of(multiply(1 / 2)(Math.PI), 0.5)) 
         : this.velocity;
 
       return this;
@@ -24,9 +31,19 @@ const movable = ({ mass, acceleration, elasticity }) => {
 
     move() {
       const { velocity } = this;
+      const { magnitude, direction } = velocity;
       this.center = this.center.addVector(velocity);
       this.center.y = this.center.y > 500 ? 500 : this.center.y;
-      this.velocity.magnitude = multiply(this.velocity.magnitude)(0.98);
+      const outOfBounds = this.center.x < 0 || this.center.x > MAP_WIDTH;
+      let newVec = Vector.of(direction, multiply(magnitude)(0.97));
+      if (outOfBounds) {
+        if (this.center.x < 0) {
+          newVec = newVec.add(Vector.of(0, 1));
+        } else {
+          newVec = Vector.of(Math.PI, newVec.magnitude); // this doesn't work for some reaason
+        }
+      }
+      this.velocity = newVec;
       return this;
     },
 
@@ -41,20 +58,32 @@ const movable = ({ mass, acceleration, elasticity }) => {
     },
 
     collide(other, vec) {
+      const { elasticity: e1, mass: m1, velocity: v1 } = this;
+      const { elasticity: e2, mass: m2, velocity: v2 } = other;
       
+      const mag1 = divide(
+        e1 * m2 * (v2.magnitude - v1.magnitude) + (m1 * v1.magnitude) + (m2 * v2.magnitude)
+      )(m1 + m2);
+
+      const mag2 = divide(
+        e2 * m1 * (v1.magnitude - v2.magnitude) + (m1 * v1.magnitude) + (m2 * v2.magnitude)
+      )(m1 + m2);
+
       //const direction = vector.direction;
       //const d1 = Math.abs(invVec.direction - direction);
       //const d2 = Math.abs(vec.direction - direction);
       //const vec1 = d1 > d2 ? invVec : vec;
       //const vec2 = d1 > d2 ? vec : invVec;
-      let vector = Line(this.center, other.center).toVector();
+      const d = Line(this.center, other.center).length;
+      let vector = Vector.of(
+        Math.atan2(other.center.y - this.center.y, other.center.x - this.center.x),
+        d
+      );
       let invVec = vector.inverse();
-      //vec1.magnitude = this.velocity.magnitude;
-      //vec2.magnitude = other.velocity.magnitude;
-      vector.magnitude = this.velocity.magnitude;
-      invVec.magnitude = other.velocity.magnitude;
-      this.velocity = vector;
-      other.velocity = invVec;
+      invVec.magnitude = mag1;
+      vector.magnitude = mag2;
+      this.velocity = invVec;
+      other.velocity = vector;
       this.move();
       other.move();
       return this;

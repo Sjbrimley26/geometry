@@ -39,7 +39,15 @@ const insertShape = function(shape) {
     return;
   }
 
-  const potentialBoxes = this.children.map(child => {
+  let eligibleParents = this.children.filter(child => child instanceof LeafNode);
+  
+  eligibleParents = eligibleParents.length === 0 
+    ? this.children.filter(c => c.children.length < 3)
+    : eligibleParents;
+
+  eligibleParents = eligibleParents.length === 0 ? this.children : eligibleParents;
+
+  const potentialBoxes = eligibleParents.map(child => {
     const { box } = child;
     const pnts = box.vertices.concat(mbb.vertices);
     return { child, box: Rectangle.MBB(pnts) };
@@ -123,16 +131,28 @@ const detectCollision = function(detectorFn, cb) {
     });
 
     objects.forEach(shapeArr => {
-      shapeArr.forEach(shape => {
-        shape.collided = false;
-        shapeArr.forEach(other => {
-          if (shape === other) return;
-          let vec = detectorFn(shape, other);
-          if (vec) {
-            return cb(shape, other, vec);
-          }
+      shapeArr
+        .map(shape => {
+          shape.collidingWith.clear();
+          return shape;
+        })
+        .forEach(shape => {
+          shapeArr.forEach(other => {
+            if (
+              shape === other ||
+              shape.collidingWith.has(other) ||
+              other.collidingWith.has(shape)
+            ) {
+              return;
+            }
+            let vec = detectorFn(shape, other);
+            if (vec) {
+              shape.collidingWith.add(other);
+              other.collidingWith.add(shape);
+              return cb(shape, other, vec);
+            }
+          });
         });
-      });
     });
 
     const children = overlaps.map(o => [...o.keys()]);

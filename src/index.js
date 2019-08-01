@@ -15,7 +15,7 @@ const {
 } = polygons;
 
 import { renderShape, refresh } from "../canvas";
-import { rotatePoint, moveRelative, detectCollision, moveTo } from "../shapes/actions";
+import { rotatePoint, detectCollision } from "../shapes/actions";
 import { movable } from "../physics/mixins";
 
 import { RTree } from "../shapes/datastructures";
@@ -57,16 +57,24 @@ const tri2 = EqTriangle.of({
   sideLength: 40
 });
 
+const cir = Circle.of({
+  center: Point(290, 130),
+  radius: 20
+});
+
 const shapes = [ 
   h,
   o,
   tri,
   h2,
   sq2,
-  //tri2,
-  p
+  tri2,
+  p,
+  cir
 ].map(s => {
   s.center.x += 100;
+  s.center.y += 150;
+  s.collidingWith = new Set();
   return Object.assign(s, movable({
     mass: 10,
     acceleration: 10,
