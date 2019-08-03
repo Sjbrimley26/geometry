@@ -76,6 +76,21 @@ const insertShape = function(shape) {
 RTree.prototype.insertShape = insertShape;
 IndexNode.prototype.insertShape = insertShape;
 
+RTree.prototype.bulkInsert = function(shapes) {
+  const startingPoints = shapes.reduce(([left, right], p) => {
+    let l = p.center.x < left.center.x ? p : left;
+    let r = p.center.x > right.center.x ? p : left;
+    return [l, r];
+  }, [shapes[0], shapes[shapes.length - 1]]);
+
+  const pnts = [
+    ...startingPoints,
+    ...sort((a, b) => a.center.x - b.center.x)(shapes.filter(p => !startingPoints.includes(p)))
+  ]; // sorting them helped a lot actually
+
+  pnts.forEach(p => this.insertShape(p));
+};
+
 RTree.prototype.empty = function() {
   this.children = [];
   return this;
@@ -121,7 +136,7 @@ const detectCollision = function(detectorFn, cb) {
   if (this.children.length < 2) return false;
   const overlaps = checkIfChildrenOverlap(this.children);
   
-  if (overlaps) {
+  if (overlaps) { //  && this.children.some(c => c instanceof LeafNode) doesn't work
     const objects = overlaps.map(overlap => {
       const objList = [];
       const overlapping = [...overlap.values()];

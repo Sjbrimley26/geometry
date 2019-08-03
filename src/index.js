@@ -1,6 +1,8 @@
 import { Point, Line, polygons } from "../shapes";
 import { multiply, toRadians, add } from "sjb-utils/Math";
 import { addTimer } from "sjb-utils/Time";
+import { Random } from "sjb-utils";
+import { range } from "sjb-utils/Arrays";
 
 const {
   EqTriangle,
@@ -13,6 +15,14 @@ const {
   Triangle,
   prototypes
 } = polygons;
+
+const polyArray = [
+  EqTriangle,
+  Hexagon,
+  //Square,
+  Pentagon,
+  Octagon
+];
 
 import { renderShape, refresh } from "../canvas";
 import { rotatePoint, detectCollision } from "../shapes/actions";
@@ -62,7 +72,16 @@ const cir = Circle.of({
   radius: 20
 });
 
+const shapeGenerator = () => {
+   const l = polyArray.length - 1;
+   const i = Random.int(0, l);
+   const center = Point(Random.int(0, 500), Random.int(0, 400));
+   const sideLength = Random.int(10, 30);
+   return polyArray[i].of({ center, sideLength });
+}
+
 const shapes = [ 
+  /*
   h,
   o,
   tri,
@@ -70,7 +89,9 @@ const shapes = [
   sq2,
   tri2,
   p,
-  cir
+  cir,
+  */
+  ...range(0, 15, 1, () => shapeGenerator())
 ].map(s => {
   s.center.x += 100;
   s.center.y += 150;
@@ -78,13 +99,15 @@ const shapes = [
   return Object.assign(s, movable({
     mass: 10,
     acceleration: 10,
-    elasticity: 0.5
+    elasticity: .5
   }));
 });
 
+o.mass = 20;
+
 let rotation = 0;
 
-const render = () => {
+const render = addTimer(() => {
   refresh();
   rTree.empty();
   
@@ -95,14 +118,16 @@ const render = () => {
     // s.rotation = rotation * 2;
     s.fall();
     s.move();
-    rTree.insertShape(s)
+    //rTree.insertShape(s);
     renderShape(s, "#0000ff")
   });
 
+  rTree.bulkInsert(shapes);
+
+  
   rTree.children.forEach(child => {
     renderShape(child.box, "rgba(0,0,0,0)");
-
-    
+ 
     child.children && child.children.forEach(c => {
       renderShape(c.box, "rgba(0,0,0,0)", "#ff0000");
 
@@ -112,17 +137,19 @@ const render = () => {
 
     })
     
-
   })
+  
 
   rTree.detectCollision(detectCollision, (shape, other, vec) => {
     shape.collide(other, vec);
+    /*
     renderShape(shape, "#ff0000");
     renderShape(other, "#ff0000");
+    */  
   })
 
-  debugger;
+  //debugger;
   window.requestAnimationFrame(render);
-}
+})
 
 render();

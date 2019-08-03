@@ -1,5 +1,6 @@
 import Rectangle from "./Rectangle";
 import circumcircle from "./prototypes/props/circumcircle";
+import bottom from "./prototypes/props/bottom";
 
 const Square = function({ center, sideLength }) {
   Rectangle.call(this, {
@@ -13,7 +14,8 @@ const Square = function({ center, sideLength }) {
 Square.prototype = Object.create(Rectangle.prototype);
 
 Object.defineProperties(Square.prototype, {
-  ...circumcircle
+  ...circumcircle,
+  ...bottom
 });
 
 Square.of = ({ center, sideLength }) => new Square({ center, sideLength})

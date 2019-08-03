@@ -22,7 +22,7 @@ const movable = ({ mass, acceleration, elasticity }) => {
     },
 
     fall() {
-      this.velocity = this.center.y < 500 
+      this.velocity = this.bottom < 500 
         ? this.velocity.add(Vector.of(multiply(1 / 2)(Math.PI), 0.5)) 
         : this.velocity;
 
@@ -32,15 +32,19 @@ const movable = ({ mass, acceleration, elasticity }) => {
     move() {
       const { velocity } = this;
       const { magnitude, direction } = velocity;
+      const oc = [...this.center];
       this.center = this.center.addVector(velocity);
-      this.center.y = this.center.y > 500 ? 500 : this.center.y;
+      if (oc[0] === this.center.x && Math.abs(oc[1] - this.center.y) <= 0.5) { // this doesn't really work
+        this.center.y = oc[1];
+      }
+      this.center.y = this.bottom > 500 ? 500 - this.apothem : this.center.y;
       const outOfBounds = this.center.x < 0 || this.center.x > MAP_WIDTH;
-      let newVec = Vector.of(direction, multiply(magnitude)(0.97));
+      let newVec = Vector.of(direction, multiply(magnitude)(0.93));
       if (outOfBounds) {
         if (this.center.x < 0) {
           newVec = newVec.add(Vector.of(0, 1));
         } else {
-          newVec = Vector.of(Math.PI, newVec.magnitude); // this doesn't work for some reaason
+          newVec = Vector.of(Math.PI, newVec.magnitude);
         }
       }
       this.velocity = newVec;
@@ -69,12 +73,14 @@ const movable = ({ mass, acceleration, elasticity }) => {
         e2 * m1 * (v1.magnitude - v2.magnitude) + (m1 * v1.magnitude) + (m2 * v2.magnitude)
       )(m1 + m2);
 
-      //const direction = vector.direction;
-      //const d1 = Math.abs(invVec.direction - direction);
-      //const d2 = Math.abs(vec.direction - direction);
-      //const vec1 = d1 > d2 ? invVec : vec;
-      //const vec2 = d1 > d2 ? vec : invVec;
       const d = Line(this.center, other.center).length;
+
+      //const inv = vec.inverse();
+      //const d1 = Math.abs(inv.direction - d);
+      //const d2 = Math.abs(vec.direction - d);
+      //const vec1 = d1 > d2 ? inv : vec;
+      //const vec2 = d1 > d2 ? vec : inv;
+      
       let vector = Vector.of(
         Math.atan2(other.center.y - this.center.y, other.center.x - this.center.x),
         d

@@ -8,6 +8,7 @@ import regularApothem from "./regularApothem";
 import vertices from "./vertices";
 import midpoints from "./midpoints";
 import normals from "./normals";
+import bottom from "./bottom";
 
 export {
   area,
@@ -19,5 +20,6 @@ export {
   regularApothem,
   vertices,
   midpoints,
-  normals
+  normals,
+  bottom
 };

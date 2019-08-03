@@ -4,7 +4,8 @@ import {
   circumcircle,
   inscribedCircle,
   regularApothem,
-  vertices
+  vertices,
+  bottom
 } from "./props";
 
 function RegularPolygon({ center, sides, sideLength }) {
@@ -19,7 +20,8 @@ Object.defineProperties(RegularPolygon.prototype, {
   ...circumcircle,
   ...inscribedCircle,
   ...regularApothem,
-  ...vertices
+  ...vertices,
+  ...bottom
 });
 
 export default RegularPolygon;
