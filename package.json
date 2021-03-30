@@ -18,11 +18,11 @@
   },
   "homepage": "https://github.com/Sjbrimley26/geometry#readme",
   "dependencies": {
-    "sjb-utils": "^1.0.5"
+    "sjb-utils": "^1.0.13"
   },
   "devDependencies": {
     "circular-dependency-plugin": "^5.0.2",
-    "html-webpack-plugin": "^3.2.0",
+    "html-webpack-plugin": "^5.3.1",
     "terser-webpack-plugin": "^1.3.0",
     "webpack": "^4.38.0",
     "webpack-cli": "^3.3.6"

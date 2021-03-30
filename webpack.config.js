@@ -1,5 +1,4 @@
 const path = require("path");
-const HtmlPlugin = require("html-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 
@@ -11,9 +10,6 @@ module.exports = {
   },
 
   plugins: [
-    new HtmlPlugin({
-      template: "src/index.html"
-    }),
 
     new CircularDependencyPlugin({
       // exclude detection of files based on a RegExp
